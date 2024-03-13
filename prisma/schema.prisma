@@ -5,26 +5,46 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 // generator is what the code will be generated into
+// multiple are possible
 generator client {
   provider = "prisma-client-js"
 }
 
+// I could add a generator here for example with provider = "nexus-prisma" to generate a GraphQL schema
+
+// maximum of one datasource block
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL") // Prisma is directly connected to the database
 }
 
-// define schema
-
+// define schema (models = tables in database)
 model User {
-  user_id     Int      @id @default(autoincrement()) // primary key
+  user_id     String   @id @default(uuid()) // primary key (randomnly generated)
+  isAdmin     Boolean  @default(false)
+  role        Role     @default(USER) // default value for the role field
+  name        String
   password    String
-  email       String
+  email       String   @unique
   last_active DateTime
   created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  updated_at  DateTime @updatedAt // field-based attribute to automatically update the field when the record is updated
   location    String
   age         Int
+
+  @@unique([name, email]) // block level attribute to enforce uniqueness of the combination of name and email
+  @@index([email]) // block level attribute to create an index on the email field
 }
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// enum type to define a set of possible values for a field
+
+// Other fields:
+// Modifies: [] (array), ? (optional)
+// Foreign key: @relation("name", fields: [field], references: [field])
 
 // run 'npx prisma migrate' to apply schema to database

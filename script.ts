@@ -17,6 +17,7 @@ async function main() { // async = run, wait, run, wait, etc.
     // console.log(user)
     // console.log("Just deleted user ", removeUser)
     console.log(findUser)
+    await prisma.user.deleteMany() // delete all users
 }
 
 
