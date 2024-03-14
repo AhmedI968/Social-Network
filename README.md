@@ -40,4 +40,3 @@ Anti-Gaming Measures: Prevents system manipulation to ensure fairness and reliab
 
 ## **Motivation**
 Our motivation stems from the desire to address the disconnect between online relationships and meaningful connections. By fostering transparency and authenticity in online interactions, we aim to improve the overall socializing experience.
-
