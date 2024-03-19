@@ -1,10 +1,37 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
+// for landing page
 export default function Home() {
   return (
     <main className={styles.main}>
-      <h1>Feed</h1>
-    </main>
+      <Header />
+      <section className={styles.hero}>
+        <h1>Welcome to the Social Network</h1>
+        <p>Where authenticity meets connection.</p>
+        <button className={styles.ctaButton}>Get Started</button>
+      </section>
+      <section className={styles.features}>
+        <div>
+          <h2>Meet New People</h2>
+          <p>Connect with people who share your interests.</p>
+        </div>
+        <div>
+          <h2>Share Your Story</h2>
+          <p>Share your experiences and perspectives.</p>
+        </div>
+        <div>
+          <h2>Join the Conversation</h2>
+          <p>Engage with others in a meaningful way.</p>
+        </div>
+        <div>
+          <h2>Transparency and Trust</h2>
+          <p>Rate and be rated based on real interactions and see the true portrayal of others.</p>
+        </div>
+      </section>
+      <Footer />
+    </main >
   );
 }
