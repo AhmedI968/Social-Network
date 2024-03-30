@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import Link from "next/link";
 
 // for landing page
 export default function Home() {
@@ -11,7 +12,9 @@ export default function Home() {
       <section className={styles.hero}>
         <h1>Welcome to the Social Network</h1>
         <p>Where authenticity meets connection.</p>
-        <button className={styles.ctaButton}>Get Started</button>
+        <button className={styles.ctaButton}>
+          <Link href="/signup">Get Started</Link>
+          </button>
       </section>
       <section className={styles.features}>
         <div>
