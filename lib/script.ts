@@ -19,5 +19,9 @@ export async function getAllUsers() {
     return users;
 }
 
+export async function deleteAllUsers() {
+    const users = await prisma.user.deleteMany();
+    return users;
+}
 // ...
 

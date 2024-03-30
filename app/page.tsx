@@ -14,7 +14,7 @@ export default function Home() {
         <p>Where authenticity meets connection.</p>
         <button className={styles.ctaButton}>
           <Link href="/signup">Get Started</Link>
-          </button>
+        </button>
       </section>
       <section className={styles.features}>
         <div>
