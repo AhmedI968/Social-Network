@@ -12,7 +12,7 @@ export default function SignupPage() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [location, setLocation] = useState('');
-    const [age, setAge] = useState(''); 
+    const [age, setAge] = useState<number>(0); 
 
     const router = useRouter();
 
@@ -42,8 +42,6 @@ export default function SignupPage() {
                 body: JSON.stringify(userData)
             });
         
-        const data = await response.json();
-
         if (response.ok) {
             const data = await response.json();
             alert("User created successfully");
@@ -82,7 +80,7 @@ export default function SignupPage() {
                 <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
 
                 <label>Age:</label>
-                <input type="number" value={age} onChange={(e) => setAge(e.target.value)} required />
+                <input type="number" value={age} onChange={(e) => setAge(parseInt(e.target.value))} required />
 
                 <button type="submit">Submit</button>
             </form>
