@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { createUser } from '../../lib/script';
 import { useRouter } from 'next/navigation';
+import { prisma } from '../../lib/script';
 
 export default function SignupPage() {
     const [firstName, setFirstName] = useState(''); 
@@ -15,7 +16,7 @@ export default function SignupPage() {
 
     const router = useRouter();
 
-    const handleSubmit = (event: any) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
 
         if (password !== confirmPassword) {
@@ -33,15 +34,24 @@ export default function SignupPage() {
             age
         };
 
-        try {
-            const newUser = createUser(userData);
-            console.log("New user created: ", newUser);
-            // redirect to login page
-            router.push("/login");
-        } catch (error) {
-            console.error("Error creating user: ", error);
-        }
+        const response = await fetch('/api/createUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+        
+        const data = await response.json();
 
+        if (response.ok) {
+            const data = await response.json();
+            alert("User created successfully");
+            router.push('/login');
+        } else {
+            const errorData = await response.json();
+            alert(errorData.message)
+        }
     };
 
     return (
