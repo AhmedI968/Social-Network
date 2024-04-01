@@ -1,8 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { createUser } from '../../lib/script';
 import { useRouter } from 'next/navigation';
-import { prisma } from '../../lib/script';
 
 export default function SignupPage() {
     const [firstName, setFirstName] = useState(''); 
@@ -59,29 +57,28 @@ export default function SignupPage() {
 
                 <label>First Name:</label> 
                 <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-
+                <br />
                 <label>Last Name:</label> 
                 <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-
-
+                <br />
                 <label>Email:</label>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-
+                <br />
                 <label>Username:</label>
                 <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-
+                <br />
                 <label>Password:</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-
+                <br />
                 <label>Confirm Password:</label>
                 <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-
+                <br />
                 <label>Location:</label>
                 <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
-
+                <br />
                 <label>Age:</label>
                 <input type="number" value={age} onChange={(e) => setAge(parseInt(e.target.value))} required />
-
+                <br />
                 <button type="submit">Submit</button>
             </form>
         </div>
