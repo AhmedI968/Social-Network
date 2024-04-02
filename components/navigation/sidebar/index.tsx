@@ -1,4 +1,5 @@
 import Link from "next/link";
+import styles from "./sidebar.module.css"
 
 const Sidebar = ({
   isOpen,
@@ -10,13 +11,13 @@ const Sidebar = ({
   return (
     <>
       <div
-        className="sidebar-container fixed w-full h-full overflow-hidden justify-center bg-white grid pt-[120px] left-0 z-10"
+        className={styles.sidebarContainer}
         style={{
           opacity: `${isOpen ? "1" : "0"}`,
           top: ` ${isOpen ? "0" : "-100%"}`,
         }}
       >
-        <button className="absolute right-0 p-5" onClick={toggle}>
+        <button className={styles.styleButton} onClick={toggle}>
           {/* Close icon */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +32,7 @@ const Sidebar = ({
           </svg>
         </button>
 
-        <ul className="sidebar-nav text-center leading-relaxed text-xl">
+        <ul className={styles.sideBarUl}>
           <li>
             <Link href="/about" onClick={toggle}>
               <p>About Us</p>

@@ -2,17 +2,18 @@ import React from "react";
 import Link from "next/link";
 import Logo from "./Logo";
 import Button from "./Button";
+import styles from "./navbar.module.css"
 
 const Navbar = ({ toggle }: { toggle: () => void }) => {
   return (
     <>
-      <div className="w-full h-20 bg-emerald-800 sticky top-0">
-        <div className="container mx-auto px-4 h-full">
-          <div className="flex justify-between items-center h-full">
+      <div className={styles.outer}>
+        <div className={styles.middle}>
+          <div className={styles.inner}>
             <Logo />
             <button
               type="button"
-              className="inline-flex items-center md:hidden"
+              className={styles.button1}
               onClick={toggle}
               title="Title"
             >
@@ -28,7 +29,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                 />
               </svg>
             </button>
-            <ul className="hidden md:flex gap-x-6 text-white ">
+            <ul className={styles.ulStyle}>
               <li>
                 <Link href="/about">
                   <p>About Us</p>
@@ -45,7 +46,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
                 </Link>
               </li>
             </ul>
-            <div className="hidden md:block">
+            <div className={styles.ulStyle2}>
               <Button />
             </div>
           </div>
