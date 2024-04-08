@@ -33,6 +33,7 @@
         display: flex; 
     }
     list-style-type: none;
+    text-decoration: none;
 }
 
 .ulStyle2 {
@@ -41,4 +42,21 @@
         display: block; 
     }
     list-style-type: none;
+}
+
+.ulStyle Link:visited {
+    list-style-type: none;
+}
+
+.ulStyle a {
+    text-decoration: none; 
+    color: inherit; 
+}
+
+.ulStyle a:hover {
+    text-decoration: underline;
+}
+
+.ulStyle a:visited {
+    color: inherit; 
 }

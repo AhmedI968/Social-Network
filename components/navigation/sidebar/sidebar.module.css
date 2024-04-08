@@ -23,3 +23,16 @@
     text-align: center; 
     list-style-type: none;
 }
+
+.sideBarUl a {
+    text-decoration: none; 
+    color: inherit; 
+}
+
+.sideBarUl a:hover {
+    text-decoration: underline;
+}
+
+.sideBarUl a:visited {
+    color: inherit; 
+}

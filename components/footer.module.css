@@ -1,0 +1,38 @@
+.footer {
+    background-color: #F7F7F7;
+    color: #555555;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    padding-top: 50px;
+}
+  
+.footer p {
+    margin: 0;
+    padding: 5px; 
+}
+  
+.linkList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+  
+.linkList li:not(:last-child) {
+    margin-right: 10px;
+}
+  
+.linkList li a {
+    color: #333333;
+    text-decoration: none;
+}
+  
+.linkList li a:hover {
+    text-decoration: underline;
+}
+  
