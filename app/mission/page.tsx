@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 const Mission = () => {
   return (
@@ -11,6 +13,7 @@ const Mission = () => {
       <p className={styles.paragraph}>
         Through user profiles, a rating system, cumulative scorecards, and anti-gaming measures, we aim to create a user-friendly environment where users can connect based on shared interests and experiences, fostering meaningful relationships.
       </p>
+      <Footer />
     </div>
   );
 };

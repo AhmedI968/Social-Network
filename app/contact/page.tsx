@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 const Contact = () => {
   return (
@@ -14,6 +16,7 @@ const Contact = () => {
       <p className={styles.paragraph}>
         Phone: +1234567890
       </p>
+      <Footer />
     </div>
   );
 };
