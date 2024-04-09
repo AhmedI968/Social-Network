@@ -5,6 +5,7 @@
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+  gap: 20px;
 }
 
 .description {
@@ -232,6 +233,7 @@
 
 .welcome {
   display: flex;
+  gap: 20px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -249,6 +251,7 @@
 
 .side {
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
