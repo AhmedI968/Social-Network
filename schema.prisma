@@ -19,29 +19,164 @@ datasource db {
 }
 
 // define schema (models = tables in database)
+
+// admin
+model Admin {
+  admin_id  String @id @default(uuid()) // primary key (randomnly generated)
+  password  String // password for the admin
+  email     String @unique // email for the admin
+  admin_pin String // pin for the admin
+}
+
+// public user
 model User {
-  user_id     String   @id @default(uuid()) // primary key (randomnly generated)
-  isAdmin     Boolean  @default(false)
-  role        Role     @default(USER) // default value for the role field
-  name        String
-  password    String
-  email       String   @unique
-  last_active DateTime
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt // field-based attribute to automatically update the field when the record is updated
-  location    String
-  age         Int
-
-  @@unique([name, email]) // block level attribute to enforce uniqueness of the combination of name and email
-  @@index([email]) // block level attribute to create an index on the email field
+  user_id          String            @id @default(uuid()) // primary key (randomnly generated)
+  username         String            @unique // username of the user
+  first_name       String // first name of the user
+  last_name        String? // last name of the user
+  email            String            @unique // email of the user
+  password         String // password of the user
+  location         String? // location of the user
+  age              Int? // age of the user
+  last_active      DateTime          @default(now()) // last active time of the user
+  UserInterest     UserInterest[]
+  UserProfile      UserProfile[]
+  Scorecard        Scorecard[]
+  InterestRating   InterestRating[]  @relation("Ratings_Given")
+  InterestRating2  InterestRating[]  @relation("Ratings_Received")
+  CategoryRating   CategoryRating[]  @relation("Ratings_Given")
+  CategoryRating2  CategoryRating[]  @relation("Ratings_Received")
+  UserRates        UserRates[]       @relation("Rating_From")
+  UserRates2       UserRates[]       @relation("Rating_To")
+  TwoWayRanking    TwoWayRanking[]   @relation("Ranking_From")
+  TwoWayRanking2   TwoWayRanking[]   @relation("Ranking_To")
+  UserRanking      UserRanking[]
+  WrittenFeedback  WrittenFeedback[] @relation("Feedback_From")
+  WrittenFeedback2 WrittenFeedback[] @relation("Feedback_To")
 }
 
-enum Role {
-  USER
-  ADMIN
+model UserProfile {
+  user_id   String  @id // foreign key to User
+  race      String?
+  gender    String?
+  sexuality String?
+  religion  String?
+  bio       String  @default("") // bio of the user
+
+  user User @relation(fields: [user_id], references: [user_id])
 }
 
-// enum type to define a set of possible values for a field
+model Interest {
+  interest_id    String           @id @default(uuid()) // primary key (randomnly generated)
+  interest_name  String // interest of the user
+  UserInterest   UserInterest[]
+  InterestRating InterestRating[]
+}
+
+model InterestCategory {
+  category_id    String           @id @default(uuid()) // primary key (randomnly generated)
+  category_name  String // interest category of the user
+  UserInterest   UserInterest[]
+  CategoryRating CategoryRating[]
+}
+
+model UserInterest {
+  user_id     String @id // foreign key to User
+  interest_id String // foreign key to Interest
+  category_id String // foreign key to InterestCategory
+
+  user     User             @relation(fields: [user_id], references: [user_id])
+  interest Interest         @relation(fields: [interest_id], references: [interest_id])
+  category InterestCategory @relation(fields: [category_id], references: [category_id])
+}
+
+model Scorecard {
+  scorecard_id     String   @id @default(uuid()) // primary key (randomnly generated)
+  user_id          String // foreign key to User
+  cumulative_score Float // cumulative score of the user
+  last_updated     DateTime @default(now()) // last updated time of the scorecard
+
+  user           User             @relation(fields: [user_id], references: [user_id])
+  InterestRating InterestRating[]
+  CategoryRating CategoryRating[]
+}
+
+model InterestRating {
+  rating_id      String @id @default(uuid()) // primary key (randomnly generated)
+  rating_user_id String // foreign key to User
+  interest_id    String // foreign key to Interest
+  rated_user_id  String // foreign key to User
+  score          Float // score of the interest
+  scorecard_id   String // foreign key to Scorecard
+
+  user       User      @relation("Ratings_Given", fields: [rating_id], references: [user_id])
+  interest   Interest  @relation(fields: [interest_id], references: [interest_id])
+  rated_user User      @relation("Ratings_Received", fields: [rated_user_id], references: [user_id])
+  scorecard  Scorecard @relation(fields: [scorecard_id], references: [scorecard_id])
+}
+
+model CategoryRating {
+  rating_id      String @id @default(uuid()) // primary key (randomnly generated)
+  rating_user_id String // foreign key to User
+  category_id    String // foreign key to InterestCategory
+  rated_user_id  String // foreign key to User
+  score          Float // score of the category
+  scorecard_id   String // foreign key to Scorecard
+
+  user       User             @relation("Ratings_Given", fields: [rating_id], references: [user_id])
+  category   InterestCategory @relation(fields: [category_id], references: [category_id])
+  rated_user User             @relation("Ratings_Received", fields: [rated_user_id], references: [user_id])
+  scorecard  Scorecard        @relation(fields: [scorecard_id], references: [scorecard_id])
+}
+
+model UserRates {
+  rating_id String @id @default(uuid()) // primary key (randomnly generated)
+  user1_id  String // foreign key to User
+  user2_id  String // foreign key to User
+
+  user1 User @relation("Rating_From", fields: [user1_id], references: [user_id])
+  user2 User @relation("Rating_To", fields: [user2_id], references: [user_id])
+}
+
+model TwoWayRanking {
+  ranking_id String @id @default(uuid()) // primary key (randomnly generated)
+  user1_id   String // foreign key to User
+  user2_id   String // foreign key to User
+  score_1    Float // score of the ranking from user_1
+  score_2    Float // score of the ranking from user_2
+
+  user1 User @relation("Ranking_From", fields: [user1_id], references: [user_id])
+  user2 User @relation("Ranking_To", fields: [user2_id], references: [user_id])
+}
+
+model UserRanking {
+  ranking_id String @id @default(uuid()) // primary key (randomnly generated)
+  user_id    String // foreign key to User
+
+  user User @relation(fields: [user_id], references: [user_id])
+}
+
+model WrittenFeedback {
+  feedback_id     String @id @default(uuid()) // primary key (randomnly generated)
+  user_id         String // foreign key to User
+  written_user_id String // foreign key to User
+  feedback        String // feedback written by the user
+
+  user              User               @relation("Feedback_From", fields: [user_id], references: [user_id])
+  written_user      User               @relation("Feedback_To", fields: [written_user_id], references: [user_id])
+  FeedbackResponse  FeedbackResponse[] @relation("Response_From")
+  FeedbackResponse2 FeedbackResponse[] @relation("Response_To")
+}
+
+model FeedbackResponse {
+  feedback1_id String
+  feedback2_id String
+
+  feedback1 WrittenFeedback @relation("Response_From", fields: [feedback1_id], references: [feedback_id])
+  feedback2 WrittenFeedback @relation("Response_To", fields: [feedback2_id], references: [feedback_id])
+
+  @@id([feedback1_id, feedback2_id]) // composite primary key
+}
 
 // Other fields:
 // Modifies: [] (array), ? (optional)
