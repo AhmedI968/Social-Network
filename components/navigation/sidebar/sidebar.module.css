@@ -1,0 +1,39 @@
+.sidebarContainer {
+    display: grid; 
+    overflow: hidden; 
+    position: fixed; 
+    left: 0; 
+    justify-content: center; 
+    width: 100%; 
+    height: 100%; 
+    background-color: #ffffff; 
+    padding-top: 120px;
+}
+
+.styleButton {
+    position: absolute; 
+    right: 0; 
+    padding: 1.25rem; 
+}
+
+.sideBarUl {
+    font-size: 1.25rem;
+    line-height: 1.75rem; 
+    line-height: 1.625; 
+    text-align: center; 
+    list-style-type: none;
+}
+
+.sideBarUl a {
+    text-decoration: none; 
+    color: inherit; 
+}
+
+.sideBarUl a:hover {
+    text-decoration: underline;
+}
+
+.sideBarUl a:visited {
+    color: inherit; 
+}
+
