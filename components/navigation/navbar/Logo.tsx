@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "./Button";
+import styles from "./logo.module.css"
 
 const Logo = () => {
   //update the size of the logo when the size of the screen changes
@@ -37,11 +38,11 @@ const Logo = () => {
     <>
       <Link href="/" style={{ display: showButton ? "none" : "block" }}>
         <Image
-          src="/images/logo.png"
+          src="/images/logo2.png"
           alt="Logo"
           width={width < 1024 ? "150" : "250"}
           height={width < 1024 ? "45" : "74"}
-          className="relative"
+          className={styles.positionLogo}
         />
       </Link>
       <div
