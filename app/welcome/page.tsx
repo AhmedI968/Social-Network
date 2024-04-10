@@ -12,7 +12,6 @@ const welcome = () => {
             <div className={styles.main}>
                 <div className={styles.cards}>
                     <Card />
-                    <Card />
                 </div>
                 <History />
             </div>

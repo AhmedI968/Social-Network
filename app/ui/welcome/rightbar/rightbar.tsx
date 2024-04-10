@@ -36,8 +36,7 @@ const Rightbar = () => {
                         <tr>Food</tr>
                     </table>
                 </div>
-                <h2>Rightbar</h2>
-                <p>Rightbar description</p>
+
             </div>
         </div>
 
