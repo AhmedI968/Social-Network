@@ -53,3 +53,7 @@
 
     width: max-content;
 }
+
+.interests {
+    display: table;
+}

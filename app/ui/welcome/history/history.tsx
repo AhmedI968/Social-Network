@@ -4,7 +4,7 @@ const History = () => {
     return (
         <div className={styles.container}>
             <h2 className={styles.title}>Your Latest Matches</h2>
-            <table className={styles.table}>
+            <div className={styles.table}>
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -33,7 +33,7 @@ const History = () => {
                         <td>8.5</td>
                     </tr>
                 </tbody>
-            </table >
+            </div >
         </div >
     );
 }

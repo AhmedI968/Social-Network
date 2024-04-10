@@ -27,8 +27,7 @@ const AdminPage = ({ placeholder }: { placeholder: string }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <td><div className={styles.user}>
-                        johndoe123</div></td>
+                    <td className={styles.user}>johndoe123</td>
 
                     <td>John</td>
                     <td>Doe</td>
@@ -36,13 +35,11 @@ const AdminPage = ({ placeholder }: { placeholder: string }) => {
                     <td>13.01.2022</td>
                     <td>Active</td>
                     <td>
-                        <div className={styles.button}>
-                            <Link href="/">
-                                <button className={`${styles.button} ${styles.view}`}>View Details</button>
-                                <button className={`${styles.button} ${styles.suspend}`}>Suspend</button>
+                        <Link href="/">
+                            <button className={`${styles.button} ${styles.view}`}>View Details</button>
+                            <button className={`${styles.button} ${styles.suspend}`}>Suspend</button>
 
-                            </Link>
-                        </div>
+                        </Link>
                     </td>
 
                 </tbody>

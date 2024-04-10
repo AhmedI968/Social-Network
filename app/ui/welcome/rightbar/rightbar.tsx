@@ -29,12 +29,15 @@ const Rightbar = () => {
                 <div className={styles.text}>
                     <span className={styles.title}>Your Current Interests</span>
                     <h3>What do you like right now?</h3>
-                    <table className={styles.interests}>
-                        <tr>Music</tr>
-                        <tr>Art</tr>
-                        <tr>Technology</tr>
-                        <tr>Food</tr>
-                    </table>
+                    <div className={styles.interests}>
+                        <tbody>
+                            <tr>Music</tr>
+                            <tr>Art</tr>
+                            <tr>Technology</tr>
+                            <tr>Food</tr>
+                        </tbody>
+
+                    </div>
                 </div>
 
             </div>
