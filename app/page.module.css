@@ -240,3 +240,13 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  border-radius: 10px;
+  justify-content: center;
+  margin-top: 50px;
+  align-items: center;
+}
