@@ -4,7 +4,7 @@ import styles from '../ui/admin/admin.module.css';
 import Search from '../ui/admin/search/search';
 import Link from 'next/link';
 
-const AdminPage = ({ placeholder }: { placeholder: string }) => {
+const AdminPage = () => {
     return (
         <div className={styles.container}>
             <Header />
