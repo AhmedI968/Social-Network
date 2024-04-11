@@ -250,3 +250,24 @@
   margin-top: 50px;
   align-items: center;
 }
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  border-radius: 10px;
+  justify-content: center;
+  margin-top: 50px;
+  align-items: center;
+}
+
+.profileButton {
+  background-color: teal;
+  color: #ffffff;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
