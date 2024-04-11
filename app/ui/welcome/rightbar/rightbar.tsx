@@ -2,9 +2,7 @@ import styles from './rightbar.module.css';
 import { FcRating } from 'react-icons/fc';
 import { AiOutlineProfile } from 'react-icons/ai';
 import { MdOutlineInterests } from 'react-icons/md';
-import { PrismaClient } from '@prisma/client';
 
-const Prisma = new PrismaClient();
 
 const Rightbar = () => {
     return (

@@ -1,7 +1,8 @@
 import styles from './card.module.css';
 import { GrScorecard } from 'react-icons/gr';
-
+import { retrieveCumulativeScore } from '@/pages/api/fetchCumulativeScore';
 const Card = () => {
+    // const score = await retrieveCumulativeScore();
     return (
         <div className={styles.container}>
             <GrScorecard size={24} />

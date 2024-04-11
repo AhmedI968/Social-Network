@@ -1,7 +1,8 @@
-import styles from "./button.module.css"
+import styles from "./button.module.css";
+import Link from "next/link";
 
 const Button = () => {
-  const handleLoginRedirect = () => {
+const handleLoginRedirect = () => {
     window.location.href = '/login';
   }
 

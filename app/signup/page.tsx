@@ -1,16 +1,17 @@
 "use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import styles from '../page.module.css';
 
 export default function SignupPage() {
-    const [firstName, setFirstName] = useState(''); 
-    const [lastName, setLastName] = useState(''); 
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [location, setLocation] = useState('');
-    const [age, setAge] = useState<number>(0); 
+    const [age, setAge] = useState<number>(0);
 
     const router = useRouter();
 
@@ -36,10 +37,10 @@ export default function SignupPage() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            });
-        
+            },
+            body: JSON.stringify(userData)
+        });
+
         if (response.ok) {
             const data = await response.json();
             alert("User created successfully");
@@ -53,12 +54,12 @@ export default function SignupPage() {
     return (
         <div>
             <h1>Signup Page</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={styles.form}>
 
-                <label>First Name:</label> 
+                <label>First Name:</label>
                 <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
                 <br />
-                <label>Last Name:</label> 
+                <label>Last Name:</label>
                 <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
                 <br />
                 <label>Email:</label>

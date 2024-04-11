@@ -1,9 +1,9 @@
 // Login Page
-'use client'
-import React, { useState} from 'react';
-import { useRouter } from 'next/navigation';
+import styles from '../page.module.css';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
+import { signIn } from 'next-auth/webauthn';
+import { authenticate } from '@/app/authenticate';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -54,6 +54,7 @@ export default function LoginPage() {
                     <br />
                     <button type="button" onClick={handleSignupRedirect}>Signup</button>
                 </form>
+
             <Footer />
         </main>
     );
