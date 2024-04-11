@@ -10,7 +10,8 @@ export default function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = async () => {
+    const handleLogin = async (event : any) => {
+        event.preventDefault();
         const response = await fetch('/api/loginUser', {
             method: 'POST',
             headers: {
@@ -21,8 +22,9 @@ export default function LoginPage() {
 
         if (response.ok) {
             const data = await response.json();
+            localStorage.setItem('token', data.token);
             alert('Login successful');
-            router.push('/');
+            router.push('/welcome');
         } else {
             const errorData = await response.json();
             router.push('/signup')

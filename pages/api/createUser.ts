@@ -9,6 +9,16 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     try {
+
+        // check if user already exists
+        const user = await prisma.user.findUnique({
+            where: { email }
+        });
+        if (user) {
+            res.status(409).json({ message: "User already exists" });
+            return;
+        }
+
         const newUser = await prisma.user.create({
             data: {
                 first_name: firstName,
