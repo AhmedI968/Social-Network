@@ -69,8 +69,10 @@ model UserProfile {
 model Interest {
   interest_id    String           @id @default(uuid()) // primary key (randomnly generated)
   interest_name  String // interest of the user
+  category_id    String // foreign key to InterestCategory
   UserInterest   UserInterest[]
   InterestRating InterestRating[]
+  category       InterestCategory @relation(fields: [category_id], references: [category_id])
 }
 
 model InterestCategory {
@@ -78,6 +80,7 @@ model InterestCategory {
   category_name  String // interest category of the user
   UserInterest   UserInterest[]
   CategoryRating CategoryRating[]
+  interests       Interest[]
 }
 
 model UserInterest {

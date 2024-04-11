@@ -30,6 +30,10 @@ export default function LoginPage() {
         }
     };
 
+    const handleSignupRedirect = () => {
+        router.push('/signup');
+    }
+
     return (
         <main>
             <Header />
@@ -45,6 +49,8 @@ export default function LoginPage() {
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     </label>
                     <button type="submit">Login</button>
+                    <br />
+                    <button type="button" onClick={handleSignupRedirect}>Signup</button>
                 </form>
             <Footer />
         </main>
