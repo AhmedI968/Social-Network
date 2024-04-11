@@ -1,8 +1,9 @@
 .buttonStyle {
     padding-left: 1.25rem;
-    padding-right: 1.25rem; 
-    border-radius: 0.5rem; 
-    height: 3rem; 
-    font-weight: 700; 
-    background-color: #ffffff; 
+    padding-right: 1.25rem;
+    border-radius: 0.5rem;
+    height: 3rem;
+    font-weight: 700;
+    background-color: #ffffff;
+    cursor: pointer;
 }

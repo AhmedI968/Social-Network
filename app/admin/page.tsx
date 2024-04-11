@@ -68,7 +68,7 @@ const AdminPage = async ({ placeholder }: { placeholder: string }) => {
                             <td>{user.email}</td>
                             <td>{user.status}</td>
                             <td>
-                                <Link href="/admin/test">
+                                <Link href={`/admin/${user.user_id}`}>
                                     <button className={`${styles.button} ${styles.view}`}>View Details</button>
                                     <button className={`${styles.button} ${styles.suspend}`}>Suspend</button>
                                 </Link>
@@ -90,7 +90,7 @@ const AdminPage = async ({ placeholder }: { placeholder: string }) => {
                 <button type="submit">Create Interest/Category</button>
             </form>
             <Footer />
-        </div>
+        </div >
     );
 }
 
