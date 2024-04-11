@@ -31,7 +31,6 @@ export default function LoginPage() {
             router.push('/welcome');
         } else {
             const errorData = await response.json();
-            router.push('/signup')
             alert(errorData.message);
         }
     };
