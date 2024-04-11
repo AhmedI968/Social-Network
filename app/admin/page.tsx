@@ -1,7 +1,7 @@
 "use client"
 import Header from '@/components/header';
- Footer from '@/components/footer';
-import importstyles from '../ui/admin/admin.module.css';
+import Footer from '@/components/footer';
+import styles from '../ui/admin/admin.module.css';
 import Search from '../ui/admin/search/search';
 import Link from 'next/link';
 import { fetchAllUsers } from '@/pages/api/fetchAllUsers';
@@ -9,7 +9,7 @@ import { fetchAllUsers } from '@/pages/api/fetchAllUsers';
 import { useState } from 'react';
 import { prisma } from '@/lib/script';
 
-const AdminPage = async({ placeholder }: { placeholder: string }) => {
+const AdminPage = async ({ placeholder }: { placeholder: string }) => {
     const [interestName, setInterestName] = useState('');
     const [categoryName, setCategoryName] = useState('');
 
@@ -36,7 +36,7 @@ const AdminPage = async({ placeholder }: { placeholder: string }) => {
             alert(errorData.message);
         }
     };
-   
+
     const users = await fetchAllUsers();
     // console.log(users); // for testing
     return (
@@ -63,7 +63,6 @@ const AdminPage = async({ placeholder }: { placeholder: string }) => {
                     {users.map((user) => (
                         <tr key={user.user_id}>
                             <td className={styles.user}>{user.username}</td>
-
                             <td>{user.first_name}</td>
                             <td>{user.last_name}</td>
                             <td>{user.email}</td>
@@ -72,7 +71,6 @@ const AdminPage = async({ placeholder }: { placeholder: string }) => {
                                 <Link href="/admin/test">
                                     <button className={`${styles.button} ${styles.view}`}>View Details</button>
                                     <button className={`${styles.button} ${styles.suspend}`}>Suspend</button>
-
                                 </Link>
                             </td>
                         </tr>
@@ -80,22 +78,19 @@ const AdminPage = async({ placeholder }: { placeholder: string }) => {
                 </tbody>
             </table>
             <Footer />
-        </div >
-
-        <form onSubmit={handleCreate}>
-            <label>
-                Category Name:
-                <input type="text" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} />
-            </label>
-            <label>
-                Interest Name:
-                <input type="text" value={interestName} onChange={(e) => setInterestName(e.target.value)} />
-            </label>
-            <button type="submit">Create Interest/Category</button>
-        </form>
-        <Footer />
+            <form onSubmit={handleCreate}>
+                <label>
+                    Category Name:
+                    <input type="text" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} />
+                </label>
+                <label>
+                    Interest Name:
+                    <input type="text" value={interestName} onChange={(e) => setInterestName(e.target.value)} />
+                </label>
+                <button type="submit">Create Interest/Category</button>
+            </form>
+            <Footer />
         </div>
-        
     );
 }
 

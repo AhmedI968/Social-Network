@@ -20,7 +20,6 @@ const login = async (credentials) => {
         if (!isPasswordCorrect) {
             throw new Error('Invalid credentials')
         }
-
         return user
     } catch (err) {
         console.error(err);
