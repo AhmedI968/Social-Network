@@ -10,7 +10,7 @@ const AdminPage = () => {
             <Header />
             <div className={styles.top}>
                 <Search placeholder={"Search for a user..."} />
-                <Link href="/admin/addUser">
+                <Link href="/admin/add">
                     <button className={styles.addButton}>Add User</button>
                 </Link>
             </div>

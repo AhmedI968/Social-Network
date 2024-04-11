@@ -1,0 +1,30 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.form {
+    display: flex;
+}
+
+.form input {
+    padding: 30px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.button {
+    width: 100%;
+    padding: 30px;
+    background-color: teal;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
