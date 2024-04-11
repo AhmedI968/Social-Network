@@ -5,6 +5,7 @@ import Rightbar from '../ui/welcome/rightbar/rightbar';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 
+
 const welcome = () => {
     return (
         <div className={styles.welcome}>
@@ -15,7 +16,6 @@ const welcome = () => {
                 </div>
                 <History />
             </div>
-            <h1>Welcome</h1>
             <div className={styles.side}>
                 <Rightbar />
 
