@@ -39,6 +39,7 @@ model User {
   location         String? // location of the user
   age              Int? // age of the user
   last_active      DateTime          @default(now()) // last active time of the user
+  status           Status            @default(ACTIVE) // status of the user
   UserInterest     UserInterest[]
   UserProfile      UserProfile[]
   Scorecard        Scorecard[]
@@ -53,6 +54,11 @@ model User {
   UserRanking      UserRanking[]
   WrittenFeedback  WrittenFeedback[] @relation("Feedback_From")
   WrittenFeedback2 WrittenFeedback[] @relation("Feedback_To")
+}
+
+enum Status {
+  ACTIVE
+  SUSPENDED
 }
 
 model UserProfile {

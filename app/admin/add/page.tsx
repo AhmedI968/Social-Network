@@ -10,9 +10,9 @@ const AddUserPage = () => {
                 <input type="text" placeholder="Username" name="Username" required />
                 <input type="text" placeholder="First Name" name="First Name" required />
                 <input type="text" placeholder="Last Name" name="Last Name" />
-                <input type="text" placeholder="Email" name="Email" required />
-                <input type="text" placeholder="Password" name="Password" required />
-                <input type="text" placeholder="Location" name="Location" />
+                <input type="email" placeholder="Email" name="Email" required />
+                <input type="password" placeholder="Password" name="Password" required />
+                <input type="location" placeholder="Location" name="Location" />
                 <input type="number" placeholder="Age" name="Age" />
                 <button type="submit" className={styles.button}>Add User</button>
             </form>

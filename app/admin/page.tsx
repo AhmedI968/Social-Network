@@ -3,8 +3,12 @@ import Footer from '@/components/footer';
 import styles from '../ui/admin/admin.module.css';
 import Search from '../ui/admin/search/search';
 import Link from 'next/link';
+import { fetchAllUsers } from '@/pages/api/fetchAllUsers';
 
-const AdminPage = () => {
+const AdminPage = async () => {
+
+    const users = await fetchAllUsers();
+    // console.log(users); // for testing
     return (
         <div className={styles.container}>
             <Header />
@@ -21,31 +25,32 @@ const AdminPage = () => {
                         <td>First Name</td>
                         <td>Last Name</td>
                         <td>Email</td>
-                        <td>Last Active</td>
                         <td>Status</td>
                         <td>Action</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <td className={styles.user}>johndoe123</td>
+                    {users.map((user) => (
+                        <tr key={user.user_id}>
+                            <td className={styles.user}>{user.username}</td>
 
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>john.doe@gmail.com</td>
-                    <td>13.01.2022</td>
-                    <td>Active</td>
-                    <td>
-                        <Link href="/">
-                            <button className={`${styles.button} ${styles.view}`}>View Details</button>
-                            <button className={`${styles.button} ${styles.suspend}`}>Suspend</button>
+                            <td>{user.first_name}</td>
+                            <td>{user.last_name}</td>
+                            <td>{user.email}</td>
+                            <td>{user.status}</td>
+                            <td>
+                                <Link href="/admin/test">
+                                    <button className={`${styles.button} ${styles.view}`}>View Details</button>
+                                    <button className={`${styles.button} ${styles.suspend}`}>Suspend</button>
 
-                        </Link>
-                    </td>
-
+                                </Link>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
             <Footer />
-        </div>
+        </div >
 
     );
 }

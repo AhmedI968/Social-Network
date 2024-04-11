@@ -229,3 +229,14 @@
     transform: rotate(0deg);
   }
 }
+
+.button {
+  background-color: #0080FF;
+  color: #ffffff;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
