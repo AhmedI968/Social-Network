@@ -51,13 +51,15 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             }
 
 
-            return prisma.userInterest.create({
+            const userInterest = await prisma.userInterest.create({
                 data: {
                     user_id: id,
                     interest_id: interest_id,
                     category_id: interest.category_id
                 }
             });
+            console.log('Interest', interest.interest_name, 'added', "category", interest.category_id);
+            return userInterest;
         }));
 
         res.status(200).json({ message: 'Interests updated successfully' });

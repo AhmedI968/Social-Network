@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
+import { set } from 'firebase/database';
 
 export default function UserProfilePage() {
     return (
@@ -103,6 +104,8 @@ type Interest = {
 function UserInterestForm() {
     const [interestCategories, setInterestCategories] = useState<any[]>([]);
     const [selectedInterests, setSelectedInterests] = useState<Record<string, string[]>>({});
+    const [selectedCount, setSelectedCount] = useState(0);
+    const maxSelections = 5;
 
     useEffect(() => {
         const fetchInterestCategories = async () => {
@@ -121,6 +124,10 @@ function UserInterestForm() {
     const handleCheckboxChange = (categoryId : any, interestId : any) => {
 
         setSelectedInterests((prevState) => {
+            // handle max amount of selected interests
+            const newCount = prevState[categoryId]?.includes(interestId) ? selectedCount - 1 : selectedCount + 1;
+            setSelectedCount(newCount);
+
             // if the category id is not in the selectedInterests object, add it
             if (!prevState[categoryId]) {
                 return {
@@ -178,6 +185,7 @@ function UserInterestForm() {
                                 type="checkbox"
                                 checked={selectedInterests[category.category_id]?.includes(interest.interest_id)}
                                 onChange={() => handleCheckboxChange(category.category_id, interest.interest_id)}
+                                disabled={selectedCount >= maxSelections && !selectedInterests[category.category_id]?.includes(interest.interest_id)}
                             />
                             {interest.interest_name}
                         </div>
