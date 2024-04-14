@@ -4,14 +4,25 @@ import Footer from '@/components/footer';
 import styles from '../ui/admin/admin.module.css';
 import Search from '../ui/admin/search/search';
 import Link from 'next/link';
-import { fetchAllUsers } from '@/pages/api/fetchAllUsers';
+//import { fetchAllUsers } from '@/pages/api/fetchAllUsers';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { prisma } from '@/lib/script';
 
-const AdminPage = async ({ placeholder }: { placeholder: string }) => {
+const AdminPage = ({ placeholder }: { placeholder: string }) => {
     const [interestName, setInterestName] = useState('');
     const [categoryName, setCategoryName] = useState('');
+    const [users, setUsers] = useState<any[]>([]);
+
+    useEffect(() => {
+        console.log('Fetching users...');
+        fetch('/api/fetchAllUsers')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setUsers(data);
+            });
+    }, []);
 
     const handleCreate = async (event: any) => {
         event.preventDefault();
@@ -37,8 +48,7 @@ const AdminPage = async ({ placeholder }: { placeholder: string }) => {
         }
     };
 
-    const users = await fetchAllUsers();
-    // console.log(users); // for testing
+    //console.log(users); // for testing
     return (
         <div className={styles.container}>
             <Header />
@@ -77,7 +87,6 @@ const AdminPage = async ({ placeholder }: { placeholder: string }) => {
                     ))}
                 </tbody>
             </table>
-            <Footer />
             <form onSubmit={handleCreate}>
                 <label>
                     Category Name:

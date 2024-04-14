@@ -11,7 +11,13 @@ import Scorecard from './scorecard/page';
 const welcome = () => {
     return (
         <div className={styles.welcome}>
+
             <Header />
+            <div className={styles.profile}>
+                <button className={styles.profileButton}>
+                    <Link href="../profile">Edit Profile</Link>
+                </button>
+            </div>
             <div className={styles.main}>
                 <div className={styles.cards}>
                     <Card />
@@ -24,8 +30,9 @@ const welcome = () => {
                 <Rightbar />
 
             </div>
+
             <Footer />
-        </div>
+        </div >
     );
 }
 
