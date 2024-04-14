@@ -1,7 +1,7 @@
 export const authConfig = {
     providers: [],
     pages: {
-        signIn: "/welcome"
+        signIn: "/login",
     },
     callbacks: {
         authorized({ auth, request }) {
@@ -18,7 +18,7 @@ export const authConfig = {
                 return Response.redirect(new URL("/welcome", request.nextUrl));
             }
 
-            return true;
+            return true; // users can stay on the page they are on
         }
     }
 }

@@ -22,7 +22,7 @@ const welcome = () => {
                 <div className={styles.cards}>
                     <Card />
                     <button className={styles.button}>
-                        <Link href="/welcome/scorecard">View Your Cumulative Scorecard</Link></button>
+                        <Link href="../welcome/scorecard">View Your Cumulative Scorecard</Link></button>
                 </div>
                 <History />
             </div>
