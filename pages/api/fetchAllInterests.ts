@@ -18,6 +18,6 @@ export const fetchAllInterests = async (user_id : string) => {
         
     } catch (err) {
         console.error(err);
-        throw new Error('There was an error fetching user');
+        throw new Error('There was an error fetching the data');
     }
 }
