@@ -18,6 +18,7 @@ const RatingPage = async (user_id : string) => {
     return (
         <div>
             <h1>User Interests</h1>
+            <br />
             <form>
                 <ul>
                     {interests.map((interest, index) => (

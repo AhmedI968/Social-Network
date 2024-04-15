@@ -17,21 +17,19 @@ const displayMatches = async (user_id : string) => {
     }
 
     return(
-        <div>
-            <h1>User Matches</h1>
-            <ul>
-                <li>
-                    {matchedUsers.map((user, index) => (
-                        <>
-                            <label>
-                                {user.user_id} - User
-                            </label>
-                            <button onClick={() => handleRateButton(user.user_id)}>
-                                Rate
-                            </button>
-                        </>
-                    ))}
-                </li>
+        <div className={styles.container}>
+            <h1 className={styles.title}>User Matches</h1>
+            <ul className={styles.userList}>
+                {matchedUsers.map((user, index) => (
+                    <li className={styles.matchedUserItem}>
+                        <label>
+                            {user.user_id} - User
+                        </label>
+                        <button onClick={() => handleRateButton(user.user_id)}>
+                            Rate
+                        </button>
+                    </li>
+                ))}
             </ul>
         </div>
     )
