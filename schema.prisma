@@ -120,7 +120,7 @@ model InterestRating {
   score          Float // score of the interest
   scorecard_id   String // foreign key to Scorecard
 
-  user       User      @relation("Ratings_Given", fields: [rating_id], references: [user_id])
+  user       User      @relation("Ratings_Given", fields: [rating_user_id], references: [user_id])
   interest   Interest  @relation(fields: [interest_id], references: [interest_id])
   rated_user User      @relation("Ratings_Received", fields: [rated_user_id], references: [user_id])
   scorecard  Scorecard @relation(fields: [scorecard_id], references: [scorecard_id])
@@ -134,7 +134,7 @@ model CategoryRating {
   score          Float // score of the category
   scorecard_id   String // foreign key to Scorecard
 
-  user       User             @relation("Ratings_Given", fields: [rating_id], references: [user_id])
+  user       User             @relation("Ratings_Given", fields: [rating_user_id], references: [user_id])
   category   InterestCategory @relation(fields: [category_id], references: [category_id])
   rated_user User             @relation("Ratings_Received", fields: [rated_user_id], references: [user_id])
   scorecard  Scorecard        @relation(fields: [scorecard_id], references: [scorecard_id])

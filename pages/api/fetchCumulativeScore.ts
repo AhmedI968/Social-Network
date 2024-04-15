@@ -22,11 +22,19 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         select: { Scorecard: true }
     });
 
-    if (!userWithScorecard || !userWithScorecard.Scorecard) {
+    if (!userWithScorecard || !userWithScorecard.Scorecard || userWithScorecard.Scorecard.length === 0) {
         res.status(404).json({ message: 'Scorecard not found' });
         return;
     }
 
-    res.status(200).json({ score: userWithScorecard.Scorecard[0].cumulative_score });
+
+    // get all of the user's scorecards
+    const scorecards = userWithScorecard.Scorecard;
+
+    // calculate the average of the cumulative scores of the scorecard
+    const totalScore = scorecards.reduce((acc, score) => acc + score.cumulative_score, 0);
+    const averageScore = totalScore / scorecards.length;
+
+    res.status(200).json({ score: averageScore });
 
 }
