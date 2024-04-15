@@ -1,18 +1,23 @@
 import { prisma } from "../../lib/script";
 import { NextApiRequest, NextApiResponse } from "next";
-import jwt from "jsonwebtoken";
-import { Interest } from "@prisma/client";
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-    // get token from request headers
-    const token = req.headers.authorization?.split(' ')[1];
+    // get username from header
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+        res.status(401).json({ message: 'Unauthorized' });
+        return;
+    }
+
+    const token = authHeader.split(' ')[1];
+    const username = token
 
     // get the body of the request
     const { interests } = req.body;
 
-    // if no token is provided, return a 401 unauthorized status
-    if (!token) {
-        res.status(401).json({ message: 'Unauthorized' });
+    // if no username is provided, return a 400 bad request status
+    if (!username) {
+        res.status(400).json({ message: 'Unauthorized' });
         return;
     }
 
@@ -22,17 +27,20 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         return;
     }
 
-    // decode the token
-    let decodedToken: any;
-    try {
-        decodedToken = jwt.verify(token, process.env.JWT_SECRET as string);
-    } catch (error) {
+    // find user by username
+    const user = await prisma.user.findUnique({
+        where: { username: username }
+    });
+
+    // get the user id from the decoded token
+    let id: any;
+
+    if (user) {
+        id = user.user_id;
+    } else {
         res.status(401).json({ message: 'Unauthorized' });
         return;
     }
-
-    // get the user id from the decoded token
-    const { id } = decodedToken;
 
     // delete all current interests of the user
     await prisma.userInterest.deleteMany({

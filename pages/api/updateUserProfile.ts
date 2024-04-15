@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import {NextApiRequest, NextApiResponse} from 'next';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../../lib/script';
+import { getSession } from 'next-auth/react';
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') {
@@ -9,26 +9,28 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         return;
     }
 
-    const { race, gender, sexuality, religion, bio } = req.body;
+    const { race, gender, sexuality, religion, bio, username } = req.body;
+    console.log(req.body)
 
-    const token = req.headers.authorization?.split(' ')[1];
+    if (!username) {
+        res.status(400).json({ message: 'Unauthorized' });
+        return;
+    }
 
-    if (!token) {
+    // find user by username
+    const user = await prisma.user.findUnique({
+        where: { username: username },
+    });
+
+    let id;
+    if (user) {
+        id = user.user_id;
+    } else {
         res.status(401).json({ message: 'Unauthorized' });
         return;
     }
 
-    let decodedToken: any;
-    try {
-        decodedToken = jwt.verify(token, process.env.JWT_SECRET as string);
-    } catch (error) {
-        res.status(401).json({ message: 'Unauthorized' });
-        return;
-    }
-
-    const { id } = decodedToken;
-    console.log(id);
-
+    console.log("user id is ", id);
     // first check if the user already exists in the userprofile table
     const userProfile = await prisma.userProfile.findUnique({
         where: { user_id: id },

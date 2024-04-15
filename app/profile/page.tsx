@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
+import { getSession, useSession } from 'next-auth/react';
 
 export default function UserProfilePage() {
     return (
@@ -20,30 +21,33 @@ function UserProfileForm() {
     const [religion, setReligion] = useState('');
     const [bio, setBio] = useState('');
 
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            const response = await fetch('/api/getUserProfile');
-            const data = await response.json();
-            setRace(data.race);
-            setGender(data.gender);
-            setSexuality(data.sexuality);
-            setReligion(data.religion);
-            setBio(data.bio);
-        };
+    //useEffect(() => {
+    //    const fetchUserProfile = async () => {
+    //        const response = await fetch('/api/getUserProfile');
+    //        const data = await response.json();
+    //        setRace(data.race);
+    //        setGender(data.gender);
+    //        setSexuality(data.sexuality);
+    //        setReligion(data.religion);
+    //        setBio(data.bio);
+    //   };
 
-        fetchUserProfile();
-    }, []);
+    //    fetchUserProfile();
+    //}, []);
 
     const handleSubmit = async (event : any) => {
         event.preventDefault();
+
+        const session = await getSession();
+        const username = session?.user.name;
 
         const response = await fetch('/api/updateUserProfile', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token') as string
             },
-            body: JSON.stringify({ race, gender, sexuality, religion, bio })
+            body: JSON.stringify({ race, gender, sexuality, religion, bio, username}),
+            credentials: 'include',
         });
 
         if (response.ok) {
@@ -108,9 +112,10 @@ function UserInterestForm() {
 
     useEffect(() => {
         const fetchInterestCategories = async () => {
+            const session = await getSession();
             const response = await fetch('/api/getInterestCategories', {
                 headers: {
-                    'Authorization' : 'Bearer ' + localStorage.getItem('token') as string
+                    'Authorization' : 'Bearer ' + session?.user.name
                 },
             });
             const data = await response.json();
@@ -118,6 +123,7 @@ function UserInterestForm() {
         };
 
         fetchInterestCategories();
+        
     }, []);
 
     const handleCheckboxChange = (categoryId : any, interestId : any) => {
@@ -152,15 +158,16 @@ function UserInterestForm() {
 
     const handleSubmit = async (event : any) => {
         event.preventDefault();
+        const session = await getSession();
 
         const response = await fetch('/api/updateUserInterests', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem('token') as string
+                'Authorization': 'Bearer ' + session?.user.name
             },
             body: JSON.stringify({
-                interests: Object.values(selectedInterests).flat()
+                interests: Object.values(selectedInterests).flat(),
             })
         });
 
