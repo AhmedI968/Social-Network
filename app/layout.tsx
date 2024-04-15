@@ -13,19 +13,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  session // include prop
 }: Readonly<{
   children: React.ReactNode;
-  session: any; // does our session object have a type
 }>) {
   return (
-    <SessionProvider session={session}>
-      <html lang="en">
-        <body className={inter.className}>
-          <Navigation />
-          {children}
-        </body>
-      </html>
-    </SessionProvider>
+    <html lang="en">
+      <body className={inter.className}>
+        <Navigation />
+        {children}
+      </body>
+    </html>
   );
 }
