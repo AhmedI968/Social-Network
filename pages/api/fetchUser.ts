@@ -1,16 +1,8 @@
 import { prisma } from '../../lib/script';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export const retrieveUser = async (user_id: string) => {
-    try {
-        const user = await prisma.user.findMany({
-            where: { user_id: user_id },
-        });
-        return user;
-    }
-    catch (err) {
-        console.error(err);
-        throw new Error('There was an error fetching user');
-    }
-
+export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+    const users = await prisma.user.findMany();
+    res.status(200).json(users);
 }
 
