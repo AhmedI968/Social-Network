@@ -10,12 +10,15 @@ export const fetchAllMatchedUsers = async (user_id : string) => {
             where: {user2_id: user_id},
         });
 
-        const matchedUsers = [...matchedUsers1, ...matchedUsers2]
+        const combinedIds: { rating_id: string; user_id: string; }[] = [];
 
-        const user1Ids = matchedUsers.map(user => user.user1_id)
-        const user2Ids = matchedUsers.map(user => user.user2_id)
-
-        const combinedIds = [...user1Ids, ...user2Ids]
+        matchedUsers1.forEach(({ rating_id, user2_id }) => {
+            combinedIds.push({ rating_id, user_id: user2_id });
+        });
+        
+        matchedUsers2.forEach(({ rating_id, user1_id }) => {
+            combinedIds.push({ rating_id, user_id: user1_id });
+        });
         
         return combinedIds;
     } catch (err) {
