@@ -2,7 +2,7 @@ import { AppProps } from "next/app";
 import Layout from "@/app/layout";
 import RootLayout from "@/app/layout";
 import { useEffect, useState } from "react";
-import { getSession } from "next-auth/react";
+import { SessionProvider, getSession } from "next-auth/react";
 import { Session } from "next-auth";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -18,9 +18,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         fetchData();
     }, []);
     return (
-        <RootLayout>
-            <Component {...pageProps} />
-        </RootLayout>
+        <SessionProvider session={session}>
+            <RootLayout>
+                <Component {...pageProps} />
+            </RootLayout>
+        </SessionProvider>
     );
 }
 
