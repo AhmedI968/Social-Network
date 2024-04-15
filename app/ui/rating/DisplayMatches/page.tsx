@@ -2,6 +2,7 @@
 import React, { use, useState } from 'react';
 import { useRouter } from 'next/router';
 import { fetchAllMatchedUsers } from '@/pages/api/fetchAllMatchedUsers';
+import styles from './styles.module.css';
 
 const displayMatches = async (user_id : string) => {
 

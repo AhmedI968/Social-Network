@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { fetchAllInterests } from '@/pages/api/fetchAllInterests';
+import styles from './styles.module.css';
 
 const RatingPage = async (user_id : string) => {
     const [ratings, setRatings] = useState<{[key: string]:number}>({});
