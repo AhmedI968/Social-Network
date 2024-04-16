@@ -2,6 +2,7 @@
 import styles from './history.module.css';
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 type Match = {
     ratingUser: string;
@@ -11,8 +12,12 @@ type Match = {
 }
 
 const History = () => {
-
+    const router = useRouter();
     const [matches, setMatches] = useState<Match[]>([]);
+
+    const handleRowClick = (username: string) => {
+        router.push(`/actualRate?username=${username}`);
+    };
 
     useEffect(() => {
         const fetchMatches = async () => {
@@ -43,7 +48,7 @@ const History = () => {
                 </thead>
                 <tbody>
                     {matches.map((item, index) => (
-                        <tr key={index}>
+                        <tr key={index} onClick={() => handleRowClick(item.ratingUser)}>
                             <td>
                                 <div className={styles.user}>{item.ratingUser}</div>
                             </td>
