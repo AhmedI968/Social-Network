@@ -90,7 +90,6 @@ const Rightbar = () => {
                         ))}
                     </div>
                 </div>
-
             </div>
         </div>
 
