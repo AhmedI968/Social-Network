@@ -11,10 +11,10 @@ const Contact = () => {
         If you have any inquiries, feedback, or suggestions regarding The Social Network project, feel free to reach out to us using the contact information provided below.
       </p>
       <p className={styles.paragraph}>
-        Email: example@example.com
+        Email: contact@theSocialNetwork.com
       </p>
       <p className={styles.paragraph}>
-        Phone: +1234567890
+        Phone: +1 (938)-860-0199
       </p>
       <Footer />
     </div>

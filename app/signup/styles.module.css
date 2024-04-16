@@ -1,0 +1,53 @@
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.title {
+    margin-top: 30px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+.container {
+    margin-top: 10px;
+  width: 500px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: 30px;
+
+}
+
+.input {
+  width: 100%;
+  padding: 5px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signupBtn {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.cancelbtn {
+  background-color: #f44336;
+  color: white;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
