@@ -2,7 +2,7 @@
 import { prisma } from '../../lib/script';
 
 
-export const updateUser = async (formData: FormData) => {
+export const updateUser = async (formData: any) => {
     const { user_id, username, first_name, last_name, email, password, location, age } = Object.fromEntries(formData);
     try {
         const updateFields = {
