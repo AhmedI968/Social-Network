@@ -1,7 +1,7 @@
 // Login Page
 "use client";
 
-import styles from '../page.module.css';
+import styles from './styles.module.css';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { signIn } from 'next-auth/react';
@@ -39,22 +39,24 @@ export default function LoginPage() {
     }
 
     return (
-        <main>
+        <main className={styles.centered}>
             <Header />
-            <h1>Login</h1>
             <form onSubmit={handleLogin}>
-                <label>
-                    Username:
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                </label>
-                <br />
-                <label>
-                    Password:
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </label>
-                <button type="submit">Login</button>
-                <br />
-                <button type="button" onClick={handleSignupRedirect}>Signup</button>
+                <h1 className={styles.title}>Login</h1>
+                <div className={styles.container}>
+                    <label>
+                        Username:
+                        <input className={styles.input} type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                    </label>
+                    <br />
+                    <label>
+                        Password:
+                        <input className={styles.input} type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    </label>
+                    <button className={styles.button} type="submit">Login</button>
+                    <br />
+                    <button className={`${styles.button} ${styles.signupBtn}`} type="button" onClick={handleSignupRedirect}>Signup</button>
+                </div>
             </form>
 
             <Footer />
