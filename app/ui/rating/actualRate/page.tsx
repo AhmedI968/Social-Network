@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { fetchAllInterests } from '@/pages/api/fetchAllInterests';
 import styles from './styles.module.css';
+import { Router } from 'react-router-dom';
 
 const RatingPage = async (user_id : string) => {
     const [ratings, setRatings] = useState<{[key: string]:number}>({});
     const interests = await fetchAllInterests(user_id);
+    const router = useRouter();
 
     const handleRatingChange = (interestId: string, rating: number) => {
         setRatings(prevRatings => ({
@@ -14,6 +16,36 @@ const RatingPage = async (user_id : string) => {
             [interestId]: rating
         }));
     };
+
+    const handleSubmit = async () => {
+        try {
+            // Temp null values till I figure out how to get scoredcard_id and 
+            // auth ready to get signed in user id
+            for (const interestId in ratings) {
+                const newScore = ratings[interestId]
+
+                const newData = {
+                    ratingUserID: null,
+                    interestID: interestId,
+                    ratedUserID: user_id,
+                    new_score: newScore,
+                    scorecardID: null,
+                };
+
+                const response = await fetch('/api/createInterestRating', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newData)
+                })
+
+                router.push('./DisplayMatches')
+            }
+        } catch(error) {
+            console.error('Error Submitting Ratings:', error)
+        }
+    }
 
     return (
         <div>
