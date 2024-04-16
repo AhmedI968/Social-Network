@@ -1,10 +1,31 @@
+"use client"
 import styles from './rightbar.module.css';
 import { FcRating } from 'react-icons/fc';
 import { AiOutlineProfile } from 'react-icons/ai';
 import { MdOutlineInterests } from 'react-icons/md';
+import {useEffect, useState} from 'react';
+import { getSession } from 'next-auth/react';
 
 
 const Rightbar = () => {
+
+    const [nextMatch, setNextMatch] = useState(null);
+    
+    useEffect(() => {
+        const fetchNextMatch = async () => {
+            const session = await getSession();
+            const response = await fetch('/api/getNextMatch', {
+                headers: {
+                    'Authorization': 'Bearer ' + session?.user.name
+                }
+            });
+            const data = await response.json();
+            setNextMatch(data);
+        };
+
+        fetchNextMatch();
+    }, []);
+
     return (
         <div className={styles.container}>
             <div className={styles.item}>
@@ -14,9 +35,10 @@ const Rightbar = () => {
                 <div className={styles.text}>
                     <span className={styles.title}>Your Next Match</span>
                     <h3>Curated based on your interests.</h3>
-                    <span className={styles.detail}>John Doe</span>
+                    <span className={styles.detail}>{nextMatch}</span>
                     <button className={styles.button}>
-                        <AiOutlineProfile />View Their Profile</button>
+                        <AiOutlineProfile />View Their Profile
+                    </button>
                 </div>
             </div>
 

@@ -21,19 +21,25 @@ function UserProfileForm() {
     const [religion, setReligion] = useState('');
     const [bio, setBio] = useState('');
 
-    //useEffect(() => {
-    //    const fetchUserProfile = async () => {
-    //        const response = await fetch('/api/getUserProfile');
-    //        const data = await response.json();
-    //        setRace(data.race);
-    //        setGender(data.gender);
-    //        setSexuality(data.sexuality);
-    //        setReligion(data.religion);
-    //        setBio(data.bio);
-    //   };
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            const session = await getSession();
+            const response = await fetch('/api/getUserProfile', {
+                headers: {
+                    'Authorization': 'Bearer ' + session?.user.name
+                }
+            });
 
-    //    fetchUserProfile();
-    //}, []);
+            const data = await response.json();
+            setRace(data.race);
+            setGender(data.gender);
+            setSexuality(data.sexuality);
+            setReligion(data.religion);
+            setBio(data.bio);
+        };
+
+        fetchUserProfile();
+    }, []);
 
     const handleSubmit = async (event : any) => {
         event.preventDefault();
@@ -123,6 +129,31 @@ function UserInterestForm() {
         };
 
         fetchInterestCategories();
+
+        const fetchUserInterests = async () => {
+            const session = await getSession();
+            const response = await fetch('/api/getUserInterests', {
+                headers: {
+                    'Authorization' : 'Bearer ' + session?.user.name
+                },
+            });
+            const data = await response.json();
+            
+            const selectedInterests = data.reduce((acc : any, interest : any) => {
+                if (!acc[interest.category_id]) {
+                    acc[interest.category_id] = [];
+                }
+                acc[interest.category_id].push(interest.interest_id);
+                return acc;
+            }, {});
+            setSelectedInterests(selectedInterests);
+
+            // calculate initial selected count
+            const initialCount = (Object.values(selectedInterests) as any[][]).reduce((acc : any, interests : any) => acc + interests.length, 0);
+            setSelectedCount(initialCount);
+        };
+
+        fetchUserInterests();
         
     }, []);
 
