@@ -14,6 +14,7 @@ type Match = {
 const History = () => {
     const router = useRouter();
     const [matches, setMatches] = useState<Match[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleRowClick = (username: string) => {
         localStorage.removeItem('userYouAreRating');
@@ -23,6 +24,7 @@ const History = () => {
 
     useEffect(() => {
         const fetchMatches = async () => {
+            setIsLoading(true);
             const session = await getSession();
             const response = await fetch('/api/getRatingHistory', {
                 headers: {
@@ -31,10 +33,15 @@ const History = () => {
             });
             const data = await response.json();
             setMatches(data);
+            setIsLoading(false);
         };
 
         fetchMatches();
     }, []);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className={styles.container}>
