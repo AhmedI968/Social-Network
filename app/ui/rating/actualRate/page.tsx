@@ -40,7 +40,7 @@ const RatingPage = async (user_id : string) => {
                     body: JSON.stringify(newData)
                 })
 
-                router.push('./DisplayMatches')
+                router.push('./app/ui/rating/DisplayMatches')
             }
         } catch(error) {
             console.error('Error Submitting Ratings:', error)
@@ -70,7 +70,7 @@ const RatingPage = async (user_id : string) => {
                     ))}
                 </ul>
                 <br />
-                <button type="submit">Submit</button>
+                <button type="submit" onClick={handleSubmit}>Submit</button>
             </form>
         </div>
     );
