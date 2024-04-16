@@ -8,6 +8,24 @@
   padding-top: 15px;
   padding-bottom: 100px;
   gap: 20px;
+  height: 100vh;
+}
+
+.cardPage {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  padding: 20px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: whitesmoke;
+}
+
+.cardPage h2, .cardPage p {
+  text-align: center;
 }
 
 .hero {
@@ -36,6 +54,11 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.link1 {
+  text-decoration: none;
 }
 
 .ctaButton:hover {
