@@ -1,7 +1,9 @@
 "use client";
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from '@/app/page.module.css';
+import styles from './styles.module.css';
+import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 export default function SignupPage() {
     const [firstName, setFirstName] = useState('');
@@ -14,6 +16,10 @@ export default function SignupPage() {
     const [age, setAge] = useState<number>(0);
 
     const router = useRouter();
+
+    const cancelRedirect  = () => {
+        router.push('/')
+    }
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
@@ -52,36 +58,59 @@ export default function SignupPage() {
     };
 
     return (
-        <div>
-            <h1>Signup Page</h1>
-            <form onSubmit={handleSubmit} className={styles.form}>
-
-                <label>First Name:</label>
-                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-                <br />
-                <label>Last Name:</label>
-                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-                <br />
-                <label>Email:</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                <br />
-                <label>Username:</label>
-                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                <br />
-                <label>Password:</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                <br />
-                <label>Confirm Password:</label>
-                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-                <br />
-                <label>Location:</label>
-                <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
-                <br />
-                <label>Age:</label>
-                <input type="number" value={age} onChange={(e) => setAge(parseInt(e.target.value))} required />
-                <br />
-                <button type="submit">Submit</button>
+        <main className={styles.centered}>
+            <Header />
+            <form onSubmit={handleSubmit}>
+                <h1 className={styles.title}>Signup Page</h1>
+                <p>Please complete this form to create an account on The Social Network</p>
+                <div className={styles.container}>
+                    <label>
+                        First Name:
+                        <input className={styles.input} type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+                    </label>
+                    <br />
+                    <label>
+                        Last Name:
+                        <input className={styles.input} type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+                    </label>
+                    <br />
+                    <label>
+                        Email:
+                        <input className={styles.input} type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    </label>
+                    <br />
+                    <label>
+                        Username:
+                        <input className={styles.input} type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />    
+                    </label>
+                    <br />
+                    <label>
+                        Password:
+                        <input className={styles.input} type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    </label>
+                    <br />
+                    <label>
+                        Confirm Password:
+                        <input className={styles.input} type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                    </label>
+                    <br />
+                    <label>
+                        Location:
+                        <input className={styles.input} type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
+                    </label>
+                    <br />
+                    <label>
+                        Age:
+                        <input className={styles.input} type="number" value={age} onChange={(e) => setAge(parseInt(e.target.value))} required />
+                    </label>
+                    <br />
+                    <button className={`${styles.button} ${styles.signupBtn}`} type="submit">Sign Up</button>
+                    <br />
+                    <button className={`${styles.button} ${styles.cancelbtn}`} onClick={cancelRedirect}>Cancel</button>
+                </div>
             </form>
-        </div>
+
+            <Footer />
+        </main>
     );
 };

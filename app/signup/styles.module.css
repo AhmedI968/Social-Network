@@ -1,0 +1,63 @@
+/* styles.module.css */
+
+/* Center the main content */
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Form title */
+.title {
+    margin-top: 30px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+/* Form container */
+.container {
+    margin-top: 10px;
+  width: 500px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: 30px;
+
+}
+
+/* Form input fields */
+.input {
+  width: 100%;
+  padding: 5px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Form buttons */
+.button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Sign up button */
+.signupBtn {
+  background-color: #04AA6D;
+  color: white;
+}
+
+/* Cancel button */
+.cancelbtn {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Hover effect */
+.button:hover {
+  opacity: 0.8;
+}
