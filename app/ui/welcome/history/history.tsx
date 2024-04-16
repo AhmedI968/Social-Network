@@ -16,7 +16,9 @@ const History = () => {
     const [matches, setMatches] = useState<Match[]>([]);
 
     const handleRowClick = (username: string) => {
-        router.push(`/actualRate?username=${username}`);
+        localStorage.removeItem('userYouAreRating');
+        localStorage.setItem('userYouAreRating', username);
+        router.push(`/actualRate`);
     };
 
     useEffect(() => {
