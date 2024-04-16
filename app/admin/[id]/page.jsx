@@ -1,14 +1,14 @@
 import styles from '@/app/ui/admin/singleUser/singleUser.module.css'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
-import { retrieveUser } from '@/pages/api/fetchUser'
+import { fetchUser } from '@/pages/api/fetchUser'
 import { updateUser } from '@/pages/api/updateUser'
 
 
 const SingleUserPage = async ({ params }) => {
 
     const { id } = params;
-    const user = await retrieveUser(id);
+    const user = await fetchUser(id);
 
     return (
         <div className={styles.container}>

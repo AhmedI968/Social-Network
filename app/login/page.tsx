@@ -4,8 +4,7 @@
 import styles from '../page.module.css';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import { signIn } from 'next-auth/webauthn';
-import { authenticate } from '@/app/authenticate';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -16,22 +15,22 @@ export default function LoginPage() {
 
     const handleLogin = async (event: any) => {
         event.preventDefault();
-        const response = await fetch('/api/loginUser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password })
+        const result = await signIn('credentials', {
+            username,
+            password,
+            redirect: false
         });
 
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            alert('Login successful');
-            router.push('/welcome');
+        console.log(result, "this is the result of the login");
+        if (result) {
+            if (result.ok) {
+                alert('Login successful')
+                router.push('/welcome');
+            } else {
+                alert('Failed to login');
+            }
         } else {
-            const errorData = await response.json();
-            alert(errorData.message);
+            console.error('No response from signin');
         }
     };
 

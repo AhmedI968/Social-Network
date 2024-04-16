@@ -33,11 +33,25 @@
 }
 
 .positive {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #333333;
     color: lime;
     font-display: bold;
 }
 
 .negative {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #333333;
     color: red;
+    font-display: bold;
+}
+
+.warning {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #333333;
+    color: yellow;
     font-display: bold;
 }
