@@ -138,6 +138,7 @@ function UserInterestForm() {
                 },
             });
             const data = await response.json();
+            console.log(data);
             
             const selectedInterests = data.reduce((acc : any, interest : any) => {
                 if (!acc[interest.category_id]) {
