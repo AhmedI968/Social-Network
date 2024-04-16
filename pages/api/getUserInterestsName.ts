@@ -4,15 +4,16 @@ import { prisma } from "../../lib/script";
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-        res.status(401).json({ message: "Unauthorized" });
+        res.status(401).json({ message: "Unauthorized header" });
         return;
     }
 
     const token = authHeader.split(" ")[1];
     const username = token;
+    console.log(username, "this is the username, sent from get user interests name api");
 
     if (!username) {
-        res.status(400).json({ message: "Unauthorized" });
+        res.status(400).json({ message: "Unauthorized username" });
         return;
     }
 
