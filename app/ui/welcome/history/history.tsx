@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 type Match = {
     ratingUser: string;
     lastUpdated: string;
-    rating: number;
+    rating: number | string;
     hasWrittenFeedback: boolean;
 }
 
@@ -24,8 +24,21 @@ const History = () => {
                 }
             });
             const data = await response.json();
-            setMatches(data);
-            console.log("from history", data)
+
+            // filter out rows with no rating
+            const filteredData = data.reduce((acc: Match[], current: Match) => {
+                const duplicate = acc.find((accItem) => accItem.ratingUser === current.ratingUser);
+                if (!duplicate) {
+                    acc.push(current);
+                } else if (duplicate.rating === "N/A" && current.rating !== "N/A") {
+                    const index = acc.indexOf(duplicate);
+                    acc[index] = current;
+                }
+                return acc;
+            }, []);
+
+            setMatches(filteredData);
+
         };
 
         fetchMatches();
