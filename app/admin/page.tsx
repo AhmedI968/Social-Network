@@ -49,6 +49,23 @@ const AdminPage = ({ placeholder }: { placeholder: string }) => {
     };
 
     //console.log(users); // for testing
+    const handleSuspend = async (event: any) => {
+        const response = await fetch('/api/suspendUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: event })
+        });
+
+        if (response.ok) {
+            alert("User suspended successfully");
+        } else {
+            alert("Failed to suspend user");
+        }
+
+    }
+
     return (
         <div className={styles.container}>
             <Header />
@@ -81,9 +98,7 @@ const AdminPage = ({ placeholder }: { placeholder: string }) => {
                                 <Link href={`/admin/${user.user_id}`}>
                                     <button className={`${styles.button} ${styles.view}`}>View Details</button>
                                 </Link>
-                                <Link href={`/admin/${user.user_id}/suspend`}>
-                                    <button className={`${styles.button} ${styles.suspend}`}>Suspend</button>
-                                </Link>
+                                <button className={`${styles.button} ${styles.suspend}`} onClick={() => handleSuspend(user.user_id)}>Suspend</button>
                             </td>
                         </tr>
                     ))}

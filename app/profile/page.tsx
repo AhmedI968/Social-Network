@@ -41,7 +41,7 @@ function UserProfileForm() {
         fetchUserProfile();
     }, []);
 
-    const handleSubmit = async (event : any) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
 
         const session = await getSession();
@@ -52,7 +52,7 @@ function UserProfileForm() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ race, gender, sexuality, religion, bio, username}),
+            body: JSON.stringify({ race, gender, sexuality, religion, bio, username }),
             credentials: 'include',
         });
 
@@ -102,14 +102,14 @@ function UserProfileForm() {
 type Interest = {
     interest_id: string;
     interest_name: string;
-  };
-  
-  type InterestCategory = {
+};
+
+type InterestCategory = {
     category_id: string;
     category_name: string;
     interests: Interest[];
-  };
-  
+};
+
 function UserInterestForm() {
     const [interestCategories, setInterestCategories] = useState<any[]>([]);
     const [selectedInterests, setSelectedInterests] = useState<Record<string, string[]>>({});
@@ -121,7 +121,7 @@ function UserInterestForm() {
             const session = await getSession();
             const response = await fetch('/api/getInterestCategories', {
                 headers: {
-                    'Authorization' : 'Bearer ' + session?.user.name
+                    'Authorization': 'Bearer ' + session?.user.name
                 },
             });
             const data = await response.json();
@@ -134,13 +134,13 @@ function UserInterestForm() {
             const session = await getSession();
             const response = await fetch('/api/getUserInterests', {
                 headers: {
-                    'Authorization' : 'Bearer ' + session?.user.name
+                    'Authorization': 'Bearer ' + session?.user.name
                 },
             });
             const data = await response.json();
             console.log(data);
-            
-            const selectedInterests = data.reduce((acc : any, interest : any) => {
+
+            const selectedInterests = data.reduce((acc: any, interest: any) => {
                 if (!acc[interest.category_id]) {
                     acc[interest.category_id] = [];
                 }
@@ -150,15 +150,15 @@ function UserInterestForm() {
             setSelectedInterests(selectedInterests);
 
             // calculate initial selected count
-            const initialCount = (Object.values(selectedInterests) as any[][]).reduce((acc : any, interests : any) => acc + interests.length, 0);
+            const initialCount = (Object.values(selectedInterests) as any[][]).reduce((acc: any, interests: any) => acc + interests.length, 0);
             setSelectedCount(initialCount);
         };
 
         fetchUserInterests();
-        
+
     }, []);
 
-    const handleCheckboxChange = (categoryId : any, interestId : any) => {
+    const handleCheckboxChange = (categoryId: any, interestId: any) => {
 
         setSelectedInterests((prevState) => {
             // handle max amount of selected interests
@@ -177,7 +177,7 @@ function UserInterestForm() {
             if (prevState[categoryId].includes(interestId)) {
                 return {
                     ...prevState,
-                    [categoryId]: prevState[categoryId].filter((id : any) => id !== interestId)
+                    [categoryId]: prevState[categoryId].filter((id: any) => id !== interestId)
                 };
             }
 
@@ -188,7 +188,7 @@ function UserInterestForm() {
         });
     };
 
-    const handleSubmit = async (event : any) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
         const session = await getSession();
 
@@ -213,8 +213,8 @@ function UserInterestForm() {
 
     //console.log(selectedInterests);
     return (
-        <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '600px', margin: '0 auto'}}>
-            {interestCategories.map((category : InterestCategory) => (
+        <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }}>
+            {interestCategories.map((category: InterestCategory) => (
                 <details key={category.category_id}>
                     <summary style={{ cursor: 'pointer', fontSize: '1.2em' }}>{category.category_name}</summary>
                     {category.interests.map(interest => (
