@@ -58,3 +58,17 @@
 .interests {
     display: table;
 }
+
+.profileItem {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh; /* This will make the container take up the full viewport height */
+}
+
+.item2 {
+    position: relative;
+    padding: 20px; /* Add horizontal padding */
+    border-radius: 10px;
+    margin-bottom: 20px;
+}

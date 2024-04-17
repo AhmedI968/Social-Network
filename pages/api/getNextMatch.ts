@@ -23,24 +23,32 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     });
 
     if (!currentUser) {
-        res.status(404).json({ message: "User not found" });
+        res.status(404).json({ message: "Unauthorized" });
         return;
     }
 
-    // find a user that shares at least 3/5 interests with the current user
-    const match = await prisma.user.findFirst({
-        where: {
-            AND: [
-                { NOT: { username: username } },
-                { UserInterest: { some: { interest_id: { in: currentUser.UserInterest.map((interest) => interest.interest_id) } } } }
-            ]
-        }
+    // fetch all users and their interests
+    const allUsers = await prisma.user.findMany({
+        include: { UserInterest: true }
     });
 
-    if (!match) {
+    // filter out the users that share at least 3 interests with the current user
+    const matches = allUsers.filter(user => {
+        // get the interest of the current user and the other user
+        const currentUserInterests = currentUser.UserInterest.map(interest => interest.interest_id);
+        const otherUserInterests = user.UserInterest.map(interest => interest.interest_id);
+
+        // find the common interests
+        const commonInterests = currentUserInterests.filter(interest => otherUserInterests.includes(interest));
+
+        // if the common interests are more than 3, then it is a match
+        return commonInterests.length >= 3;
+    });
+
+    if (matches.length === 0) {
         res.status(404).json("Match not found");
         return;
     }
 
-    res.status(200).json(match.username);
+    res.status(200).json(matches[0].username);
 }

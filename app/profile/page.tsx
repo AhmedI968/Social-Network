@@ -30,6 +30,13 @@ function UserProfileForm() {
                 }
             });
 
+            if (!response.ok) {
+                console.error('Error status: ', response.status);
+                return;
+            }
+
+            console.log(response);
+
             const data = await response.json();
             setRace(data.race);
             setGender(data.gender);

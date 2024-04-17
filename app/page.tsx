@@ -8,7 +8,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className={styles.main}>
-      <Header />
       <section className={styles.hero}>
         <h1>Welcome to the Social Network</h1>
         <p>Where authenticity meets connection.</p>
