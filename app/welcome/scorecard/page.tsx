@@ -1,6 +1,6 @@
 "use client"
 import styles from '@/app/ui/welcome/scorecard/scorecard.module.css';
-import Card  from '../../ui/welcome/card/card';
+import Card from '../../ui/welcome/card/card';
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 import React from 'react';
@@ -37,11 +37,11 @@ const Scorecard = () => {
     const data = React.useMemo(() => matches, [matches]);
 
     const columns = React.useMemo(() => [
-        {Header: 'Name', accessor: 'ratingUser'},
-        {Header: 'Date', accessor: 'lastUpdated'},
-        {Header: 'Rating Received', accessor: 'ratingReceived'},
-        {Header: 'Rating Given', accessor: 'ratingGiven'},
-        {Header: 'Feedback', accessor: 'writtenFeedback'}
+        { Header: 'Name', accessor: 'ratingUser' },
+        { Header: 'Date', accessor: 'lastUpdated' },
+        { Header: 'Rating Received', accessor: 'ratingReceived' },
+        { Header: 'Rating Given', accessor: 'ratingGiven' },
+        { Header: 'Feedback', accessor: 'writtenFeedback' }
     ], []);
 
     const {
