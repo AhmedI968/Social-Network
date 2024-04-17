@@ -20,6 +20,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const user = await prisma.user.findUnique({
         where : { username : username },
         select : {
+            user_id: true,
             WrittenFeedback: {
                 select: {
                     written_user_id: true,
@@ -46,7 +47,11 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     }
 
     // get all of the user's scorecards
-    const scorecards = user.Scorecard;
+    const scorecards = await prisma.scorecard.findMany({
+        include: {
+            CategoryRating: true
+        }
+    });
 
     // prepare the result array
     const result = [];
@@ -54,37 +59,59 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     // iterate through all the scorecards
     for (const scorecard of scorecards) {
 
-        console.log("from getRatingHistory", scorecard)
-
-        // take one category rating in the scorecard and get user who gave the rating
+        // find who gave the rating
         const ratingUserId = scorecard.CategoryRating[0].rating_user_id;
+        const ratedUserId = scorecard.CategoryRating[0].rated_user_id;
 
-        // find the user who gave the rating by id
-        const ratingUser = await prisma.user.findUnique({
-            where: { user_id: ratingUserId }
-        });
+        // if the user is the one who gave the rating
+        if (user.user_id === ratingUserId) {
+            let hasWrittenFeedback = false;
 
-        if (!ratingUser) {
-            res.status(404).json({ message: 'Rating user not found' });
-            return;
-        }
-
-        // check if there is a written feedback from the rating user to the rated user
-        let hasWrittenFeedback = false;
-        for (const feedback of user.WrittenFeedback) {
-            if (feedback.written_user_id === ratingUserId) {
-                hasWrittenFeedback = true;
-                break;
+            // check if the user has written feedback for the rated user
+            for (const feedback of user.WrittenFeedback) {
+                if (feedback.written_user_id === scorecard.CategoryRating[0].rated_user_id) {
+                    hasWrittenFeedback = true;
+                    break;
+                }
             }
-        }
 
-        // push the result to the result array
-        result.push({
-            ratingUser: ratingUser.username,
-            lastUpdated: scorecard.last_updated,
-            rating: scorecard.cumulative_score,
-            hasWrittenFeedback: hasWrittenFeedback
-        });
+            // find the user who the recevied the rating
+            const ratedUser = await prisma.user.findUnique({
+                where: { user_id: ratedUserId }
+            });
+
+            result.push({
+                ratingUser: ratedUser?.username,
+                hasWrittenFeedback: hasWrittenFeedback,
+                lastUpdated: "N/A",
+                rating: "N/A"
+            });
+        } else if (user.user_id === ratedUserId) {
+            // if the user is the one who received the rating
+            let hasWrittenFeedback = false;
+
+            // check if the user has written feedback for the rated user
+            for (const feedback of user.WrittenFeedback) {
+                if (feedback.written_user_id === scorecard.CategoryRating[0].rating_user_id) {
+                    hasWrittenFeedback = true;
+                    break;
+                }
+            }
+
+            // find the user who the gave the rating
+            const ratingUser = await prisma.user.findUnique({
+                where: { user_id: ratingUserId }
+            });
+
+            result.push({
+                ratingUser: ratingUser?.username,
+                hasWrittenFeedback: hasWrittenFeedback,
+                lastUpdated: scorecard.last_updated,
+                rating: scorecard.cumulative_score
+            });
+        } else {
+            continue;
+        }
     }
 
     console.log("this is the result", result)

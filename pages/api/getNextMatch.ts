@@ -34,9 +34,19 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         return;
     }
 
+    // get all scorecards
+    const allScorecards = await prisma.scorecard.findMany({
+        include: {
+            CategoryRating: true
+        }
+    });
+
     // get the list of users that the current user has already matched with
-    const matchedUsers = currentUser.Scorecard.flatMap(scorecard =>
-        scorecard.CategoryRating.map(categoryRating => categoryRating.rating_user_id)
+    const matchedUsers = allScorecards.flatMap(scorecard => 
+        scorecard.CategoryRating.filter(categoryRating =>
+            categoryRating.rating_user_id === currentUser.user_id ||
+            categoryRating.rated_user_id === currentUser.user_id
+        ).map(categoryRating => categoryRating.rated_user_id)
     );
 
     // fetch all users and their interests

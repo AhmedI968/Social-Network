@@ -19,11 +19,9 @@ export default function UserProfilePage() {
     const [religion, setReligion] = useState('');
     const [bio, setBio] = useState('');
     const router = useRouter();
-    const [userYouAreViewing, setUserYouAreViewing] = useState<string>('');
-
+    const userYouAreViewing = localStorage.getItem('userYouAreViewing') || '';
 
     useEffect(() => {
-        setUserYouAreViewing(localStorage.getItem('userYouAreViewing') || '');
         const fetchUserProfile = async () => {
             const response = await fetch('/api/getUserProfile', {
                 headers: {

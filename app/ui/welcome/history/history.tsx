@@ -2,6 +2,7 @@
 import styles from './history.module.css';
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 type Match = {
     ratingUser: string;
@@ -11,7 +12,7 @@ type Match = {
 }
 
 const History = () => {
-
+    const router = useRouter();
     const [matches, setMatches] = useState<Match[]>([]);
 
     useEffect(() => {
@@ -30,6 +31,12 @@ const History = () => {
         fetchMatches();
     }, []);
 
+    const writeFeedback = (username: string) => {
+        localStorage.removeItem('userYouAreWriting');
+        localStorage.setItem('userYouAreWriting', username);
+        router.push('/writeFeedback')
+    }
+
     return (
         <div className={styles.container}>
             <h2 className={styles.title}>Your Latest Matches</h2>
@@ -44,7 +51,7 @@ const History = () => {
                 </thead>
                 <tbody>
                     {Array.isArray(matches) && matches.map((item, index) => (
-                        <tr key={index}>
+                        <tr key={index} onClick={() => writeFeedback(item.ratingUser)}>
                             <td>
                                 <div className={styles.user}>{item.ratingUser}</div>
                             </td>

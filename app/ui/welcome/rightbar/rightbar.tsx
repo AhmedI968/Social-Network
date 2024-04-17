@@ -46,6 +46,7 @@ const Rightbar = () => {
     }, []);
 
     const viewProfile = (username: string) => {
+        console.log("from rightbar", username)
         localStorage.removeItem('userYouAreViewing');
         localStorage.setItem('userYouAreViewing', username);
         router.push(`/profilePage`);
