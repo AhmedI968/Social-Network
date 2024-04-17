@@ -14,6 +14,8 @@ Please Enjoy The Social Network.
 3) Initialize Prisma if prisma folder is not visible: 'npx prisma init --datasource-provider mysql' 
 * recommended: install Prisma extension on VS Code to help with auto-formatting
 4) Install Prisma client library to interact with models using TypeScript 'npm i @prisma/client'
+5) Run 'npx prisma generate'
+6) Run 'npx prisma migrate dev' and the database will be ready.
 
 **SocialNetwork** connects people in the interconnected world of the internet. It aims to revolutionize online friendships by providing a platform that fosters authentic connections based on meaningful interactions and shared interests.
 
