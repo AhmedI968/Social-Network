@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { prisma } from '@/lib/script';
 
-const AdminPage = ({ placeholder }: { placeholder: string }) => {
+const AdminPage = () => {
     const [interestName, setInterestName] = useState('');
     const [categoryName, setCategoryName] = useState('');
     const [users, setUsers] = useState<any[]>([]);
