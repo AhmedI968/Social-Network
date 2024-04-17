@@ -5,9 +5,27 @@
   flex-direction: column;
   align-items: center;
   background-color: #F7F7F7;
-  padding-top: 15px;
+  padding-top: 85px;
   padding-bottom: 100px;
   gap: 20px;
+  height: 100vh;
+}
+
+.cardPage {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  padding: 20px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: whitesmoke;
+}
+
+.cardPage h2, .cardPage p {
+  text-align: center;
 }
 
 .hero {
@@ -36,6 +54,11 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.link1 {
+  text-decoration: none;
 }
 
 .ctaButton:hover {
@@ -249,4 +272,25 @@
   justify-content: center;
   margin-top: 50px;
   align-items: center;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  border-radius: 10px;
+  justify-content: center;
+  margin-top: 50px;
+  align-items: center;
+}
+
+.profileButton {
+  background-color: teal;
+  color: #ffffff;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }

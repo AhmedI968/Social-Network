@@ -1,11 +1,10 @@
 // Login Page
 "use client";
 
-import styles from '../page.module.css';
+import styles from './styles.module.css';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import { signIn } from 'next-auth/webauthn';
-import { authenticate } from '@/app/authenticate';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -16,22 +15,22 @@ export default function LoginPage() {
 
     const handleLogin = async (event: any) => {
         event.preventDefault();
-        const response = await fetch('/api/loginUser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password })
+        const result = await signIn('credentials', {
+            username,
+            password,
+            redirect: false
         });
 
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            alert('Login successful');
-            router.push('/welcome');
+        console.log(result, "this is the result of the login");
+        if (result) {
+            if (result.ok) {
+                alert('Login successful')
+                router.push('/welcome');
+            } else {
+                alert('Failed to login');
+            }
         } else {
-            const errorData = await response.json();
-            alert(errorData.message);
+            console.error('No response from signin');
         }
     };
 
@@ -40,22 +39,24 @@ export default function LoginPage() {
     }
 
     return (
-        <main>
+        <main className={styles.centered}>
             <Header />
-            <h1>Login</h1>
             <form onSubmit={handleLogin}>
-                <label>
-                    Username:
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                </label>
-                <br />
-                <label>
-                    Password:
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </label>
-                <button type="submit">Login</button>
-                <br />
-                <button type="button" onClick={handleSignupRedirect}>Signup</button>
+                <h1 className={styles.title}>Login</h1>
+                <div className={styles.container}>
+                    <label>
+                        Username:
+                        <input className={styles.input} type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                    </label>
+                    <br />
+                    <label>
+                        Password:
+                        <input className={styles.input} type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    </label>
+                    <button className={styles.button} type="submit">Login</button>
+                    <br />
+                    <button className={`${styles.button} ${styles.signupBtn}`} type="button" onClick={handleSignupRedirect}>Signup</button>
+                </div>
             </form>
 
             <Footer />

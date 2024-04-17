@@ -10,6 +10,7 @@
 }
 
 .item {
+    margin: 20px;
     position: relative;
     padding: 20px 0px;
     border-radius: 10px;
@@ -18,11 +19,11 @@
 
 .bgContainer {
     object-fit: contain;
-    position: absolute;
+    position: relative;
     bottom: 0;
     right: 0;
-    width: 50%;
-    height: 50%;
+    display:flex;
+    justify-content: center;
 }
 
 .text {
@@ -56,4 +57,18 @@
 
 .interests {
     display: table;
+}
+
+.profileItem {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh; /* This will make the container take up the full viewport height */
+}
+
+.item2 {
+    position: relative;
+    padding: 20px; /* Add horizontal padding */
+    border-radius: 10px;
+    margin-bottom: 20px;
 }

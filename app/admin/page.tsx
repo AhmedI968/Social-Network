@@ -4,14 +4,25 @@ import Footer from '@/components/footer';
 import styles from '../ui/admin/admin.module.css';
 import Search from '../ui/admin/search/search';
 import Link from 'next/link';
-import { fetchAllUsers } from '@/pages/api/fetchAllUsers';
+//import { fetchAllUsers } from '@/pages/api/fetchAllUsers';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { prisma } from '@/lib/script';
 
-const AdminPage = async ({ placeholder }: { placeholder: string }) => {
+const AdminPage = ({ placeholder }: { placeholder: string }) => {
     const [interestName, setInterestName] = useState('');
     const [categoryName, setCategoryName] = useState('');
+    const [users, setUsers] = useState<any[]>([]);
+
+    useEffect(() => {
+        console.log('Fetching users...');
+        fetch('/api/fetchAllUsers')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setUsers(data);
+            });
+    }, []);
 
     const handleCreate = async (event: any) => {
         event.preventDefault();
@@ -37,8 +48,24 @@ const AdminPage = async ({ placeholder }: { placeholder: string }) => {
         }
     };
 
-    const users = await fetchAllUsers();
-    // console.log(users); // for testing
+    //console.log(users); // for testing
+    const handleSuspend = async (event: any) => {
+        const response = await fetch('/api/suspendUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: event })
+        });
+
+        if (response.ok) {
+            alert("User suspended successfully");
+        } else {
+            alert("Failed to suspend user");
+        }
+
+    }
+
     return (
         <div className={styles.container}>
             <Header />
@@ -70,14 +97,13 @@ const AdminPage = async ({ placeholder }: { placeholder: string }) => {
                             <td>
                                 <Link href={`/admin/${user.user_id}`}>
                                     <button className={`${styles.button} ${styles.view}`}>View Details</button>
-                                    <button className={`${styles.button} ${styles.suspend}`}>Suspend</button>
                                 </Link>
+                                <button className={`${styles.button} ${styles.suspend}`} onClick={() => handleSuspend(user.user_id)}>Suspend</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <Footer />
             <form onSubmit={handleCreate}>
                 <label>
                     Category Name:
