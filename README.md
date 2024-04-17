@@ -7,6 +7,8 @@ To run The Social Network, please ensure you have node modules installed and fol
 
 Please Enjoy The Social Network.
 
+# env file was attached to the second submission as it was necessary for the database url, please take the file and put in the root directory once you the unzip the folder. Thank you.
+
 # **Initialize Prisma**
 
 1) Initialize npm by running 'npm init -y' in terminal
