@@ -49,13 +49,13 @@ const AdminPage = ({ placeholder }: { placeholder: string }) => {
     };
 
     //console.log(users); // for testing
-    const handleSuspend = async (event: any) => {
+    const handleSuspend = async (user_id: any) => {
         const response = await fetch('/api/suspendUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ user_id: event })
+            body: JSON.stringify({ user_id: user_id })
         });
 
         if (response.ok) {
