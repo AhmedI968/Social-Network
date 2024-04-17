@@ -3,7 +3,7 @@ import styles from './rightbar.module.css';
 import { FcRating } from 'react-icons/fc';
 import { AiOutlineProfile } from 'react-icons/ai';
 import { MdOutlineInterests } from 'react-icons/md';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 
 interface UserInterest {
@@ -15,7 +15,7 @@ const Rightbar = () => {
 
     const [nextMatch, setNextMatch] = useState(null);
     const [userInterests, setUserInterests] = useState<UserInterest[]>([]);
-    
+
     useEffect(() => {
         const fetchNextMatch = async () => {
             const session = await getSession();
@@ -63,8 +63,7 @@ const Rightbar = () => {
                 <div className={styles.text}>
                     <span className={styles.title}>Your Next Match</span>
                     <h3>Curated based on your interests.</h3>
-                    <span className={styles.detail}>{nextMatch}</span>
-                    <button className={styles.button}>
+                    <span className={styles.detail}>{nextMatch || 'Loading...'}</span>                    <button className={styles.button}>
                         <AiOutlineProfile />View Their Profile
                     </button>
                 </div>

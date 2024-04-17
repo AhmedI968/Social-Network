@@ -80,6 +80,8 @@ const AdminPage = ({ placeholder }: { placeholder: string }) => {
                             <td>
                                 <Link href={`/admin/${user.user_id}`}>
                                     <button className={`${styles.button} ${styles.view}`}>View Details</button>
+                                </Link>
+                                <Link href={`/admin/${user.user_id}/suspend`}>
                                     <button className={`${styles.button} ${styles.suspend}`}>Suspend</button>
                                 </Link>
                             </td>

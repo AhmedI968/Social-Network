@@ -2,7 +2,6 @@
 import styles from './history.module.css';
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 type Match = {
     ratingUser: string;
@@ -12,19 +11,11 @@ type Match = {
 }
 
 const History = () => {
-    const router = useRouter();
-    const [matches, setMatches] = useState<Match[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
 
-    const handleRowClick = (username: string) => {
-        localStorage.removeItem('userYouAreRating');
-        localStorage.setItem('userYouAreRating', username);
-        router.push(`/actualRate`);
-    };
+    const [matches, setMatches] = useState<Match[]>([]);
 
     useEffect(() => {
         const fetchMatches = async () => {
-            setIsLoading(true);
             const session = await getSession();
             const response = await fetch('/api/getRatingHistory', {
                 headers: {
@@ -33,15 +24,10 @@ const History = () => {
             });
             const data = await response.json();
             setMatches(data);
-            setIsLoading(false);
         };
 
         fetchMatches();
     }, []);
-
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <div className={styles.container}>
@@ -56,8 +42,8 @@ const History = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {matches.map((item, index) => (
-                        <tr key={index} onClick={() => handleRowClick(item.ratingUser)}>
+                    {Array.isArray(matches) && matches.map((item, index) => (
+                        <tr key={index}>
                             <td>
                                 <div className={styles.user}>{item.ratingUser}</div>
                             </td>
