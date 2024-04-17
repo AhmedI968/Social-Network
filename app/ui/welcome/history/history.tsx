@@ -24,6 +24,7 @@ const History = () => {
             });
             const data = await response.json();
             setMatches(data);
+            console.log("from history", data)
         };
 
         fetchMatches();

@@ -19,13 +19,25 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     // find user by username
     const currentUser = await prisma.user.findUnique({ 
         where: { username: username },
-        include: { UserInterest: true }
+        include: { 
+            UserInterest: true,
+            Scorecard: {
+                include: {
+                    CategoryRating: true
+                } 
+            }
+        }
     });
 
     if (!currentUser) {
         res.status(404).json({ message: "Unauthorized" });
         return;
     }
+
+    // get the list of users that the current user has already matched with
+    const matchedUsers = currentUser.Scorecard.flatMap(scorecard =>
+        scorecard.CategoryRating.map(categoryRating => categoryRating.rating_user_id)
+    );
 
     // fetch all users and their interests
     const allUsers = await prisma.user.findMany({
@@ -34,6 +46,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
     // filter out the users that share at least 3 interests with the current user
     const matches = allUsers.filter(user => {
+        if (user.username === currentUser.username || matchedUsers.includes(user.user_id)) {
+            return false;
+        }
         // get the interest of the current user and the other user
         const currentUserInterests = currentUser.UserInterest.map(interest => interest.interest_id);
         const otherUserInterests = user.UserInterest.map(interest => interest.interest_id);
