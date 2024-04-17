@@ -7,10 +7,12 @@ import { getSession } from 'next-auth/react';
 
 const Card = () => {
     const [score, setScore] = useState<number | string | null>(null);
+    const [currentUser, setCurrentUser] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchScore = async () => {
             const session = await getSession();
+            setCurrentUser(session?.user.name as string);
             try {
                 const response = await fetch('/api/fetchCumulativeScore', {
                     headers: {
@@ -55,7 +57,7 @@ const Card = () => {
             <GrScorecard size={24} />
 
             <div className={styles.text}>
-                <span className={styles.title}>Your Current Score</span>
+                <span className={styles.title}>Your Current Score ({currentUser})</span>
                 <span className={styles.number}>{score}</span>
                 <span className={styles.detail}>
                     <span className={scoreClass}>{scoreMessage}</span>

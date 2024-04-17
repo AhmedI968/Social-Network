@@ -13,12 +13,13 @@ interface UserInterest {
 
 export default function UserProfilePage() {
     const [userInterests, setUserInterests] = useState<UserInterest[]>([]);
-    const userYouAreViewing = localStorage.getItem('userYouAreViewing');
+    const userYouAreViewing = localStorage.getItem('userYouAreViewing') || '';
     const [race, setRace] = useState('');
     const [gender, setGender] = useState('');
     const [sexuality, setSexuality] = useState('');
     const [religion, setReligion] = useState('');
     const [bio, setBio] = useState('');
+    const router = useRouter();
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -67,6 +68,12 @@ export default function UserProfilePage() {
         return groups;
     }, {});
 
+    const handleButtonClick = () => {
+        localStorage.removeItem('userYouAreRating');
+        localStorage.setItem('userYouAreRating', userYouAreViewing);
+        router.push('/actualRate');
+    }
+
     return (
         <div className={styles.profileItem}>
             <div className={styles.item}>
@@ -98,6 +105,9 @@ export default function UserProfilePage() {
                     <p><strong>Bio:</strong> {bio}</p>
                 </div>
                 
+            </div>
+            <div className={styles.profileItem}>
+                <button onClick={handleButtonClick} className={styles.rateButton}>Rate User</button>
             </div>
         </div>
     );

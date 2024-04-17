@@ -54,6 +54,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     // iterate through all the scorecards
     for (const scorecard of scorecards) {
 
+        console.log("from getRatingHistory", scorecard)
 
         // take one category rating in the scorecard and get user who gave the rating
         const ratingUserId = scorecard.CategoryRating[0].rating_user_id;
@@ -70,8 +71,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
         // check if there is a written feedback from the rating user to the rated user
         let hasWrittenFeedback = false;
-        console.log("this is the user we are looking at ", ratingUser.username)
-        console.log(user.WrittenFeedback[0].written_user_id, "this is the user id of the written feedback user")
         for (const feedback of user.WrittenFeedback) {
             if (feedback.written_user_id === ratingUserId) {
                 hasWrittenFeedback = true;
