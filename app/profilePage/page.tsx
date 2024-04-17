@@ -13,15 +13,17 @@ interface UserInterest {
 
 export default function UserProfilePage() {
     const [userInterests, setUserInterests] = useState<UserInterest[]>([]);
-    const userYouAreViewing = localStorage.getItem('userYouAreViewing') || '';
     const [race, setRace] = useState('');
     const [gender, setGender] = useState('');
     const [sexuality, setSexuality] = useState('');
     const [religion, setReligion] = useState('');
     const [bio, setBio] = useState('');
     const router = useRouter();
+    const [userYouAreViewing, setUserYouAreViewing] = useState<string>('');
+
 
     useEffect(() => {
+        setUserYouAreViewing(localStorage.getItem('userYouAreViewing') || '');
         const fetchUserProfile = async () => {
             const response = await fetch('/api/getUserProfile', {
                 headers: {
