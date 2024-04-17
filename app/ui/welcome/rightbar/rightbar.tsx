@@ -60,6 +60,7 @@ const Rightbar = () => {
                 <div className={styles.bgContainer}>
                     <FcRating size={24} />
                 </div>
+                <br />
                 <div className={styles.text}>
                     <span className={styles.title}>Your Next Match</span>
                     <h3>Curated based on your interests.</h3>
@@ -71,9 +72,6 @@ const Rightbar = () => {
             </div>
 
             <div className={styles.item}>
-                <div className={styles.bgContainer}>
-                    <MdOutlineInterests size={24} />
-                </div>
                 <div className={styles.text}>
                     <span className={styles.title}>Your Current Interests</span>
                     <h3>What do you like right now?</h3>
@@ -88,6 +86,9 @@ const Rightbar = () => {
                                 </ul>
                             </div>
                         ))}
+                    </div>
+                    <div className={styles.bgContainer}>
+                        <MdOutlineInterests size={24} />
                     </div>
                 </div>
             </div>
