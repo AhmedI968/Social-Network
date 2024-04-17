@@ -10,7 +10,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     const ratedUsername = authHeader?.split(" ")[2];
     const ratings = req.body;
 
-    console.log(ratingUsername, ratedUsername, ratings, "this is the data passed in");
+    console.log(ratingUsername, " is rating ", ratedUsername, ratings, "this is the data passed in");
 
     // find the user that is currently signed in and the user we are rating
     const ratingUser = await prisma.user.findUnique({ where: { username: ratingUsername } });
@@ -71,7 +71,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     // create the scorecard object
     const scorecard = await prisma.scorecard.create({
         data: {
-            user_id: ratingUser?.user_id,
+            user_id: ratedUser?.user_id,
             cumulative_score: averageRating,
         },
     });
