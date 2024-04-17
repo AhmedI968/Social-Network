@@ -3,16 +3,21 @@ import styles from "./page.module.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Link from "next/link";
+import { setup } from "@/lib/script";
 
 // for landing page
 export default function Home() {
+  // call setup function from lib/script.ts 
+  // to populate the database with initial data
+  setup();
+
   return (
     <main className={styles.main}>
       <section className={styles.hero}>
         <h1>Welcome to the Social Network</h1>
         <p>Where authenticity meets connection.</p>
         <button className={styles.ctaButton}>
-          <Link style={{textDecoration: 'none', color: 'white'}} href="/signup">Get Started</Link>
+          <Link style={{ textDecoration: 'none', color: 'white' }} href="/signup">Get Started</Link>
         </button>
       </section>
       <section className={styles.features}>

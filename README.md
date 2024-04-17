@@ -1,6 +1,12 @@
 # Social-Network
 The project for CPSC 471
 
+# Running this Application:
+
+To run The Social Network, please ensure you have node modules installed and follow the steps below to intialize prisma. Then go to the directory of the code and open the terminal and run the command: "npm run dev". To explore the database please open a seperate terminal and run "npx prisma studio" to get a GUI experience of all the tables in the database.
+
+Please Enjoy The Social Network.
+
 # **Initialize Prisma**
 
 1) Initialize npm by running 'npm init -y' in terminal

@@ -68,6 +68,7 @@ const AdminPage = () => {
 
     return (
         <div className={styles.container}>
+
             <Header />
             <div className={styles.top}>
                 <Search placeholder={"Search for a user..."} />
