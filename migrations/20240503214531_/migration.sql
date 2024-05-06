@@ -1,35 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the column `created_at` on the `user` table. All the data in the column will be lost.
-  - You are about to drop the column `isAdmin` on the `user` table. All the data in the column will be lost.
-  - You are about to drop the column `name` on the `user` table. All the data in the column will be lost.
-  - You are about to drop the column `role` on the `user` table. All the data in the column will be lost.
-  - You are about to drop the column `updated_at` on the `user` table. All the data in the column will be lost.
-  - A unique constraint covering the columns `[username]` on the table `User` will be added. If there are existing duplicate values, this will fail.
-  - Added the required column `first_name` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `username` to the `User` table without a default value. This is not possible if the table is not empty.
-
-*/
--- DropIndex
-DROP INDEX `User_email_idx` ON `user`;
-
--- DropIndex
-DROP INDEX `User_name_email_key` ON `user`;
-
--- AlterTable
-ALTER TABLE `user` DROP COLUMN `created_at`,
-    DROP COLUMN `isAdmin`,
-    DROP COLUMN `name`,
-    DROP COLUMN `role`,
-    DROP COLUMN `updated_at`,
-    ADD COLUMN `first_name` VARCHAR(191) NOT NULL,
-    ADD COLUMN `last_name` VARCHAR(191) NULL,
-    ADD COLUMN `username` VARCHAR(191) NOT NULL,
-    MODIFY `last_active` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    MODIFY `location` VARCHAR(191) NULL,
-    MODIFY `age` INTEGER NULL;
-
 -- CreateTable
 CREATE TABLE `Admin` (
     `admin_id` VARCHAR(191) NOT NULL,
@@ -39,6 +7,24 @@ CREATE TABLE `Admin` (
 
     UNIQUE INDEX `Admin_email_key`(`email`),
     PRIMARY KEY (`admin_id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `User` (
+    `user_id` VARCHAR(191) NOT NULL,
+    `username` VARCHAR(191) NOT NULL,
+    `first_name` VARCHAR(191) NOT NULL,
+    `last_name` VARCHAR(191) NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `location` VARCHAR(191) NULL,
+    `age` INTEGER NULL,
+    `last_active` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `status` ENUM('ACTIVE', 'SUSPENDED') NOT NULL DEFAULT 'ACTIVE',
+
+    UNIQUE INDEX `User_username_key`(`username`),
+    UNIQUE INDEX `User_email_key`(`email`),
+    PRIMARY KEY (`user_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -57,6 +43,7 @@ CREATE TABLE `UserProfile` (
 CREATE TABLE `Interest` (
     `interest_id` VARCHAR(191) NOT NULL,
     `interest_name` VARCHAR(191) NOT NULL,
+    `category_id` VARCHAR(191) NOT NULL,
 
     PRIMARY KEY (`interest_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -75,7 +62,7 @@ CREATE TABLE `UserInterest` (
     `interest_id` VARCHAR(191) NOT NULL,
     `category_id` VARCHAR(191) NOT NULL,
 
-    PRIMARY KEY (`user_id`)
+    PRIMARY KEY (`user_id`, `interest_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -158,11 +145,11 @@ CREATE TABLE `FeedbackResponse` (
     PRIMARY KEY (`feedback1_id`, `feedback2_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- CreateIndex
-CREATE UNIQUE INDEX `User_username_key` ON `User`(`username`);
-
 -- AddForeignKey
 ALTER TABLE `UserProfile` ADD CONSTRAINT `UserProfile_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Interest` ADD CONSTRAINT `Interest_category_id_fkey` FOREIGN KEY (`category_id`) REFERENCES `InterestCategory`(`category_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `UserInterest` ADD CONSTRAINT `UserInterest_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -177,7 +164,7 @@ ALTER TABLE `UserInterest` ADD CONSTRAINT `UserInterest_category_id_fkey` FOREIG
 ALTER TABLE `Scorecard` ADD CONSTRAINT `Scorecard_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `InterestRating` ADD CONSTRAINT `InterestRating_rating_id_fkey` FOREIGN KEY (`rating_id`) REFERENCES `User`(`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `InterestRating` ADD CONSTRAINT `InterestRating_rating_user_id_fkey` FOREIGN KEY (`rating_user_id`) REFERENCES `User`(`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `InterestRating` ADD CONSTRAINT `InterestRating_interest_id_fkey` FOREIGN KEY (`interest_id`) REFERENCES `Interest`(`interest_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -189,7 +176,7 @@ ALTER TABLE `InterestRating` ADD CONSTRAINT `InterestRating_rated_user_id_fkey` 
 ALTER TABLE `InterestRating` ADD CONSTRAINT `InterestRating_scorecard_id_fkey` FOREIGN KEY (`scorecard_id`) REFERENCES `Scorecard`(`scorecard_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `CategoryRating` ADD CONSTRAINT `CategoryRating_rating_id_fkey` FOREIGN KEY (`rating_id`) REFERENCES `User`(`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `CategoryRating` ADD CONSTRAINT `CategoryRating_rating_user_id_fkey` FOREIGN KEY (`rating_user_id`) REFERENCES `User`(`user_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `CategoryRating` ADD CONSTRAINT `CategoryRating_category_id_fkey` FOREIGN KEY (`category_id`) REFERENCES `InterestCategory`(`category_id`) ON DELETE RESTRICT ON UPDATE CASCADE;

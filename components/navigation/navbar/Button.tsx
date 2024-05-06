@@ -1,43 +1,23 @@
 import styles from "./button.module.css";
-import { useSession, signOut, SessionProvider, getSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { Session } from "next-auth";
+import { useSession, signIn, signOut, getSession } from "next-auth/react";
+import Link from "next/link";
 
-const Button = () => {
+function AuthButton() {
   const { data: session } = useSession();
-
-  const handleRedirect = () => {
-    if (session) {
-      signOut({callbackUrl: '/login'});
-    } else {
-      window.location.href = '/login';
-    }
-  }
-
-  return (
-    <button onClick={handleRedirect} className={styles.buttonStyle}>
-      {session ? "Logout" : "Login"}
-      </button>
-  );
-};
-
-const WrappedButton = () => {
-  const [session, setSession] = useState<Session | null>(null);
-
-    useEffect(() => {
-      const fetchData = async () => {
-          const session = await getSession();
-          setSession(session);
-      };
-      console.log(session);
-      fetchData();
-  }, []);
-
-  return (
-    <SessionProvider session={session}>
-    <Button />
-  </SessionProvider>
-  );
-};
   
-export default WrappedButton;
+  if (session) {
+    return (
+      <>
+      {session?.user?.name} <br />
+      <button onClick={() => signOut()} className={styles.buttonStyle}>Sign Out</button>
+      </>
+    );
+  }
+  return (
+    <>
+    <button onClick={() => signIn()} className={styles.buttonStyle}>Sign In</button>
+    </>
+  )
+}
+
+export default AuthButton;

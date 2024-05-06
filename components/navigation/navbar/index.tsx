@@ -4,6 +4,7 @@ import Logo from "./Logo";
 import Button from "./Button";
 import styles from "./navbar.module.css"
 import WrappedButton from "./Button";
+import AuthButton from "./Button";
 
 const Navbar = ({ toggle }: { toggle: () => void }) => {
   return (
@@ -48,7 +49,7 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
               </li>
             </ul>
             <div className={styles.ulStyle2}>
-              <WrappedButton />
+              <AuthButton />
             </div>
           </div>
         </div>

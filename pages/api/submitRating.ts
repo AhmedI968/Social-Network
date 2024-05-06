@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "../../lib/script";
 import { NextResponse } from "next/server";
-import Scorecard from "@/app/welcome/scorecard/page";
+import Scorecard from "@/app/dashboard/scorecard/page";
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     // extract the data from the headers, the local storage, and the passed in values

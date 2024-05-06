@@ -1,6 +1,6 @@
 "use client"
-import styles from '@/app/ui/welcome/scorecard/scorecard.module.css';
-import Card from '../../ui/welcome/card/card';
+import styles from './scorecard.module.css';
+import Card from '../card/page';
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 import React from 'react';

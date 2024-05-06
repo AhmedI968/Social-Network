@@ -9,7 +9,7 @@ import { setup } from "@/lib/script";
 export default function Home() {
   // call setup function from lib/script.ts 
   // to populate the database with initial data
-  setup();
+  //setup();
 
   return (
     <main className={styles.main}>

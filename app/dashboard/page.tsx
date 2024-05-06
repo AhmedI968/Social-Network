@@ -1,5 +1,5 @@
 import styles from './styles.module.css';
-import Card from '../ui//welcome/card/card';
+import Card from './card/page';
 import History from '../ui/welcome/history/history';
 import Rightbar from '../ui/welcome/rightbar/rightbar';
 import Header from '@/components/header';
