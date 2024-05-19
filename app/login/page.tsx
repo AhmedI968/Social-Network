@@ -25,7 +25,7 @@ export default function LoginPage() {
         if (result) {
             if (result.ok) {
                 alert('Login successful')
-                router.push('/welcome');
+                router.push('/dashboard');
             } else {
                 alert('Failed to login');
             }

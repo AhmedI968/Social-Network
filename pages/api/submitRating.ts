@@ -71,7 +71,8 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     // create the scorecard object
     const scorecard = await prisma.scorecard.create({
         data: {
-            user_id: ratedUser?.user_id,
+            rating_user_id: ratingUser?.user_id,
+            rated_user_id: ratedUser?.user_id,
             cumulative_score: averageRating,
         },
     });

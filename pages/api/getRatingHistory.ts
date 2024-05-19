@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../lib/script'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+
+    // get user information from the header
     const authHeader = req.headers.authorization;
     if (!authHeader) {
         res.status(401).json({ message: 'Unauthorized' });
@@ -27,17 +29,6 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                     user_id: true
                 }
             },
-            Scorecard: {
-                select: {
-                    cumulative_score: true,
-                    last_updated: true,
-                    CategoryRating: {
-                        select: {
-                            rating_user_id: true,
-                        }
-                    }
-                }
-            }
         }
     });
 
@@ -46,75 +37,61 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         return;
     }
 
-    // get all of the user's scorecards
-    const scorecards = await prisma.scorecard.findMany({
+    // fetch all usermatch objects where the current user is either user1 or user2
+    const userMatches = await prisma.userMatch.findMany({
+        where: {
+            OR: [
+                { user1_id: user.user_id },
+                { user2_id: user.user_id }
+            ]
+        },
         include: {
-            CategoryRating: true
+            user1: true,
+            user2: true,
         }
     });
 
-    // prepare the result array
-    const result = [];
+    const ratingHistory = [];
 
-    // iterate through all the scorecards
-    for (const scorecard of scorecards) {
+    for (const match of userMatches) {
+        // determine the matched user
+        const matchedUser = match.user1.user_id === user.user_id ? match.user2 : match.user1;
 
-        // find who gave the rating
-        const ratingUserId = scorecard.CategoryRating[0].rating_user_id;
-        const ratedUserId = scorecard.CategoryRating[0].rated_user_id;
-
-        // if the user is the one who gave the rating
-        if (user.user_id === ratingUserId) {
-            let hasWrittenFeedback = false;
-
-            // check if the user has written feedback for the rated user
-            for (const feedback of user.WrittenFeedback) {
-                if (feedback.written_user_id === scorecard.CategoryRating[0].rated_user_id) {
-                    hasWrittenFeedback = true;
-                    break;
-                }
+        // fetch the scorecard where the current user is the rating user and the matched user is the rated user
+        const givenScorecard = await prisma.scorecard.findFirst({
+            where: {
+                rating_user_id: user.user_id,
+                rated_user_id: matchedUser.user_id
             }
+        });
 
-            // find the user who the recevied the rating
-            const ratedUser = await prisma.user.findUnique({
-                where: { user_id: ratedUserId }
-            });
-
-            result.push({
-                ratingUser: ratedUser?.username,
-                hasWrittenFeedback: hasWrittenFeedback,
-                lastUpdated: "N/A",
-                rating: "N/A"
-            });
-        } else if (user.user_id === ratedUserId) {
-            // if the user is the one who received the rating
-            let hasWrittenFeedback = false;
-
-            // check if the user has written feedback for the rated user
-            for (const feedback of user.WrittenFeedback) {
-                if (feedback.written_user_id === scorecard.CategoryRating[0].rating_user_id) {
-                    hasWrittenFeedback = true;
-                    break;
-                }
+        // fetch the scorecard where the matched user is the rating user and the current user is the rated user
+        const receivedScorecard = await prisma.scorecard.findFirst({
+            where: {
+                rating_user_id: matchedUser.user_id,
+                rated_user_id: user.user_id
             }
+        });
 
-            // find the user who the gave the rating
-            const ratingUser = await prisma.user.findUnique({
-                where: { user_id: ratingUserId }
-            });
+        // determine the status of the feedback
+        let feedbackReceived = false;
 
-            result.push({
-                ratingUser: ratingUser?.username,
-                hasWrittenFeedback: hasWrittenFeedback,
-                lastUpdated: scorecard.last_updated,
-                rating: scorecard.cumulative_score
-            });
-        } else {
-            continue;
-        }
+        // check if the current user has written feedback for the matched user
+        const writtenFeedback = user.WrittenFeedback.find(feedback => feedback.written_user_id === matchedUser.user_id);
+
+        // combine the data into the object to be returned
+        ratingHistory.push({
+            matchedUser: matchedUser.username,
+            matchedAt: match.matchedAt,
+            ratingGiven: givenScorecard?.cumulative_score || 0,
+            ratingReceived: receivedScorecard?.cumulative_score || 0,
+            feedbackReceived: !!receivedScorecard,
+            writtenFeedback: writtenFeedback ? writtenFeedback.user_id : ''
+        });
     }
 
-    console.log("this is the result", result)
-    res.status(200).json(result);
+
+    console.log("this is the result", ratingHistory)
+    res.status(200).json(ratingHistory);
     
 }

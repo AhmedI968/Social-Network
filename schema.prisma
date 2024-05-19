@@ -30,30 +30,33 @@ model Admin {
 
 // public user
 model User {
-  user_id          String            @id @default(uuid()) // primary key (randomnly generated)
-  username         String            @unique // username of the user
-  first_name       String // first name of the user
-  last_name        String? // last name of the user
-  email            String            @unique // email of the user
-  password         String // password of the user
-  location         String? // location of the user
-  age              Int? // age of the user
-  last_active      DateTime          @default(now()) // last active time of the user
-  status           Status            @default(ACTIVE) // status of the user
-  UserInterest     UserInterest[]
-  UserProfile      UserProfile[]
-  Scorecard        Scorecard[]
-  InterestRating   InterestRating[]  @relation("Ratings_Given")
-  InterestRating2  InterestRating[]  @relation("Ratings_Received")
-  CategoryRating   CategoryRating[]  @relation("Ratings_Given")
-  CategoryRating2  CategoryRating[]  @relation("Ratings_Received")
-  UserRates        UserRates[]       @relation("Rating_From")
-  UserRates2       UserRates[]       @relation("Rating_To")
-  TwoWayRanking    TwoWayRanking[]   @relation("Ranking_From")
-  TwoWayRanking2   TwoWayRanking[]   @relation("Ranking_To")
-  UserRanking      UserRanking[]
-  WrittenFeedback  WrittenFeedback[] @relation("Feedback_From")
-  WrittenFeedback2 WrittenFeedback[] @relation("Feedback_To")
+  user_id               String            @id @default(uuid()) // primary key (randomnly generated)
+  username              String            @unique // username of the user
+  first_name            String            // first name of the user
+  last_name             String?           // last name of the user
+  email                 String            @unique // email of the user
+  password              String            // password of the user
+  location              String?           // location of the user
+  age                   Int?              // age of the user
+  last_active           DateTime          @default(now()) // last active time of the user
+  status                Status            @default(ACTIVE) // status of the user
+  UserInterest          UserInterest[]
+  UserProfile           UserProfile[]
+  Scorecard_received    Scorecard[]       @relation("Rated_User")
+  Scorecard_given       Scorecard[]       @relation("Rating_User")
+  InterestRating        InterestRating[]  @relation("Ratings_Given")
+  InterestRating2       InterestRating[]  @relation("Ratings_Received")
+  CategoryRating        CategoryRating[]  @relation("Ratings_Given")
+  CategoryRating2       CategoryRating[]  @relation("Ratings_Received")
+  UserRates             UserRates[]       @relation("Rating_From")
+  UserRates2            UserRates[]       @relation("Rating_To")
+  TwoWayRanking         TwoWayRanking[]   @relation("Ranking_From")
+  TwoWayRanking2        TwoWayRanking[]   @relation("Ranking_To")
+  UserRanking           UserRanking[]
+  WrittenFeedback       WrittenFeedback[] @relation("Feedback_From")
+  WrittenFeedback2      WrittenFeedback[] @relation("Feedback_To")
+  matches1              UserMatch[]       @relation("Match_From")
+  matches2              UserMatch[]       @relation("Match_To")
 }
 
 enum Status {
@@ -101,15 +104,32 @@ model UserInterest {
   @@id([user_id, interest_id])
 }
 
+model UserMatch {
+  match_id String @id @default(uuid()) // primary key (randomnly generated)
+  user1_id String // foreign key to User
+  user2_id String // foreign key to User
+  matchedAt DateTime @default(now()) // time of the match
+  rating_given Float? // rating given by user1 to user2
+  rating_received Float? // rating received by user1 from user2
+  feeback_received Boolean? // feedback received by user1 from user2
+
+  user1 User @relation("Match_From", fields: [user1_id], references: [user_id]) // user who initiated the match
+  user2 User @relation("Match_To", fields: [user2_id], references: [user_id]) // user who received the match
+
+  @@unique([user1_id, user2_id])
+}
+
 model Scorecard {
   scorecard_id     String   @id @default(uuid()) // primary key (randomnly generated)
-  user_id          String // foreign key to User
+  rating_user_id   String // foreign key to User, user who is rating
+  rated_user_id    String // foreign key to User, user who is being rated
   cumulative_score Float // cumulative score of the user
   last_updated     DateTime @default(now()) // last updated time of the scorecard
 
-  user           User             @relation(fields: [user_id], references: [user_id])
-  InterestRating InterestRating[]
-  CategoryRating CategoryRating[]
+  rating_user      User             @relation("Rating_User", fields: [rating_user_id], references: [user_id])
+  rated_user       User             @relation("Rated_User", fields: [rated_user_id], references: [user_id])
+  InterestRating   InterestRating[]
+  CategoryRating   CategoryRating[]
 }
 
 model InterestRating {

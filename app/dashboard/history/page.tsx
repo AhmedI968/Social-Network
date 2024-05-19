@@ -5,10 +5,11 @@ import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 type Match = {
-    ratingUser: string;
-    lastUpdated: string;
-    rating: number | string;
-    hasWrittenFeedback: boolean;
+    matchedUser: string;
+    matchedAt: string;
+    ratingGiven: number | string;
+    ratingReceived: number | string;
+    feedbackReceived: boolean;
 }
 
 const History = () => {
@@ -24,21 +25,6 @@ const History = () => {
                 }
             });
             const data = await response.json();
-
-            // filter out rows with no rating
-            const filteredData = data.reduce((acc: Match[], current: Match) => {
-                const duplicate = acc.find((accItem) => accItem.ratingUser === current.ratingUser);
-                if (!duplicate) {
-                    acc.push(current);
-                } else if (duplicate.rating === "N/A" && current.rating !== "N/A") {
-                    const index = acc.indexOf(duplicate);
-                    acc[index] = current;
-                }
-                return acc;
-            }, []);
-
-            setMatches(filteredData);
-
         };
 
         fetchMatches();
@@ -59,23 +45,25 @@ const History = () => {
                         <th>Name</th>
                         <th>Status</th>
                         <th>Date</th>
+                        <th>Rating Given</th>
                         <th>Rating Received</th>
                     </tr>
                 </thead>
                 <tbody>
                     {Array.isArray(matches) && matches.map((item, index) => (
-                        <tr key={index} onClick={() => writeFeedback(item.ratingUser)}>
+                        <tr key={index} onClick={() => writeFeedback(item.matchedUser)}>
                             <td>
-                                <div className={styles.user}>{item.ratingUser}</div>
+                                <div className={styles.user}>{item.matchedUser}</div>
                             </td>
                             <td>
-                                {item.hasWrittenFeedback ?
+                                {item.feedbackReceived ?
                                     <span className={`${styles.status} ${styles.done}`}>Done</span> :
                                     <span className={`${styles.status} ${styles.pending}`}>Pending</span>
                                 }
                             </td>
-                            <td>{new Date(item.lastUpdated).toLocaleDateString()}</td>
-                            <td>{item.rating}</td>
+                            <td>{new Date(item.matchedAt).toLocaleDateString()}</td>
+                            <td>{item.ratingGiven}</td>
+                            <td>{item.ratingReceived}</td>
                         </tr>
                     ))}
                 </tbody>

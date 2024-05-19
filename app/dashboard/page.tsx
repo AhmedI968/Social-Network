@@ -1,7 +1,7 @@
 import styles from './styles.module.css';
 import Card from './card/page';
-import History from '../ui/welcome/history/history';
-import Rightbar from '../ui/welcome/rightbar/rightbar';
+import History from './history/page';
+import Rightbar from './rightbar/rightbar';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import Link from 'next/link';
@@ -25,7 +25,7 @@ const welcome = () => {
                 </div>
                 <div className={styles.buttonSpace}>
                     <button className={styles.button}>
-                        <Link style={{textDecoration: 'none', color: 'white'}} href="/welcome/scorecard">View Your Cumulative Scorecard</Link>
+                        <Link style={{textDecoration: 'none', color: 'white'}} href="/dashboard/scorecard">View Your Cumulative Scorecard</Link>
                     </button>
                 </div>
                 <div className={styles.historySpace}>
